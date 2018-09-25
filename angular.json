@@ -3,17 +3,17 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngTemplate": {
+    "solvPersonal": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
-      "targets": {
+      "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngTemplate",
+            "outputPath": "dist/solvPersonal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,6 +23,9 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "src/styles.css"
             ],
             "scripts": []
@@ -50,18 +53,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngTemplate:build"
+            "browserTarget": "solvPersonal:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngTemplate:build:production"
+              "browserTarget": "solvPersonal:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngTemplate:build"
+            "browserTarget": "solvPersonal:build"
           }
         },
         "test": {
@@ -72,6 +75,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "src/styles.css"
             ],
             "scripts": [],
@@ -95,7 +101,7 @@
         }
       }
     },
-    "ngTemplate-e2e": {
+    "solvPersonal-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "targets": {
@@ -103,11 +109,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngTemplate:serve"
+            "devServerTarget": "solvPersonal:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngTemplate:serve:production"
+              "devServerTarget": "solvPersonal:serve:production"
             }
           }
         },
@@ -123,5 +129,5 @@
       }
     }
   },
-  "defaultProject": "ngTemplate"
+  "defaultProject": "solvPersonal"
 }

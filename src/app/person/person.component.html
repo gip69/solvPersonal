@@ -1,0 +1,8 @@
+<mat-nav-list>
+  <mat-list-item *ngFor="let person of persons">
+    <p>{{ person.name }}</p>
+    <button mat-icon-button (click)="showInfo(person)">
+      <mat-icon>info</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
