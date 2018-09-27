@@ -1,5 +1,8 @@
 <mat-nav-list>
-  <mat-list-item *ngFor="let run of runs">
-    <p>{{ run.name }}</p>
+  <mat-list-item *ngFor="let run of runs" (click)="showInfo(run)">
+    <!--button mat-icon-button (click)="showInfo(run)"-->
+      <mat-icon>directions_run</mat-icon>
+    <span>{{ run.name }}</span>
+    <!--/button-->
   </mat-list-item>
 </mat-nav-list>
