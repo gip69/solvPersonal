@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{modalTitle}}</h2>
+<mat-dialog-content>
+  <mat-list role="list">
+    <mat-list-item role="listitem" class="run"><span class="description">Rang</span><span class="value">{{data.rank}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Zeit</span><span class="value">{{data.time}}</span></mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]='true'>Ok</button>
+</mat-dialog-actions>
