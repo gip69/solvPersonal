@@ -4,7 +4,8 @@ export class Person {
     constructor(
         public name: string,
         public prename: string,
-        public runs: Run[]
+        public club: string,
+        public year: number
     ) {
     }
 }

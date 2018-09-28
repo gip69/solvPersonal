@@ -22,6 +22,18 @@ export class RunComponent implements OnInit {
           'OL2',
           8,
           4756
+      ),
+        new Run(
+            3,
+            'OL3',
+            4,
+            1694
+        ),
+        new Run(
+            4,
+            'OL4',
+            26,
+            3749
       )
   ];
   constructor(private dialog: MatDialog) { }
@@ -49,7 +61,7 @@ export class RunComponent implements OnInit {
             id: run.nr,
             title: run.name,
             rank: run.rank,
-            time: (t.getHours() - 1) + ':' + t.getMinutes() + ':' + t.getSeconds();
+            time: (t.getHours() - 1) + ':' + t.getMinutes() + ':' + t.getSeconds()
         };
 
         const dialogRef = this.dialog.open(RunDialogComponent, dialogConfig );
