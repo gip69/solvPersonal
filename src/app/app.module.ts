@@ -10,14 +10,17 @@ import {NavmenuComponent} from './navmenu/navmenu.component';
 import {RunComponent} from './run/run.component';
 import {OverviewComponent} from './overview/overview.component';
 import {RouterModule, Routes} from '@angular/router';
-import {NavdemoComponent} from './navdemo/navdemo.component';
 import {RunDialogComponent} from './run-dialog/run-dialog.component';
+import {SolvService} from './shared/solv.service';
+import { TickComponent } from './tick/tick.component';
+import { RunDetailsComponent } from './run-details/run-details.component';
 
 const appRoutes: Routes = [
-    {path: '', component: OverviewComponent, data: {title: 'Overview'}},
-    {path: 'first', component: PersonComponent, data: {title: 'Person Component'}},
-    {path: 'second', component: RunComponent, data: {title: 'Run Component'}},
-    {path: 'third', component: RunComponent, data: {title: 'Tick Component'}}
+    {path: '', redirectTo: 'person', pathMatch: 'full'},
+    {path: 'person', component: PersonComponent, data: {title: 'Person Component'}},
+    {path: 'run', component: RunComponent, data: {title: 'Run Component'}},
+    {path: 'run/:id', component: RunDetailsComponent, data: {title: 'Run Details Component'}},
+    {path: 'tick', component: TickComponent, data: {title: 'Tock Component'}}
 ];
 
 @NgModule({
@@ -26,9 +29,10 @@ const appRoutes: Routes = [
         PersonComponent,
         NavmenuComponent,
         OverviewComponent,
-        NavdemoComponent,
         RunComponent,
-        RunDialogComponent
+        RunDialogComponent,
+        TickComponent,
+        RunDetailsComponent
     ],
     imports: [
         BrowserModule,
@@ -40,7 +44,7 @@ const appRoutes: Routes = [
         CustomMaterialModule,
         LayoutModule,
     ],
-    providers: [],
+    providers: [SolvService],
     bootstrap: [AppComponent],
     entryComponents: [RunDialogComponent]
 })

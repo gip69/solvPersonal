@@ -5,7 +5,7 @@ import {
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule, MatChipsModule, MatCardModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -16,7 +16,9 @@ import {NgModule} from '@angular/core';
         MatIconModule,
         MatListModule,
         MatToolbarModule,
-        MatDialogModule
+        MatDialogModule,
+        MatChipsModule,
+        MatCardModule
     ],
     exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
         MatButtonModule,
@@ -24,7 +26,9 @@ import {NgModule} from '@angular/core';
         MatIconModule,
         MatListModule,
         MatToolbarModule,
-        MatDialogModule
+        MatDialogModule,
+        MatChipsModule,
+        MatCardModule
     ],
 })
 export class CustomMaterialModule { }

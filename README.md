@@ -5,6 +5,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 It's possible to copy folder ngTemplate. Rename project with new name. Replace ngTemplate with new name in hole project (incl. node_modules).
 After replacing start "npm install". Maybe update angular with "ng add angular".
 
+## Update Angular/Material
+
+ng add @angular/material
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
