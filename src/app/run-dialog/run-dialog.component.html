@@ -1,8 +1,10 @@
-<h2 mat-dialog-title>{{modalTitle}}</h2>
+<h2 mat-dialog-title>{{modalTitle}} ({{data.id}})</h2>
 <mat-dialog-content>
   <mat-list role="list">
-    <mat-list-item role="listitem" class="run"><span class="description">Rang</span><span class="value">{{data.rank}}</span></mat-list-item>
-    <mat-list-item role="listitem" class="run"><span class="description">Zeit</span><span class="value">{{data.time}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Date</span><span class="value">{{data.date}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Map</span><span class="value">{{data.map}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Club</span><span class="value">{{data.club}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Link</span><span class="value">{{data._link}}</span></mat-list-item>
   </mat-list>
 </mat-dialog-content>
 <mat-dialog-actions>

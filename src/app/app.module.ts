@@ -14,6 +14,7 @@ import {RunDialogComponent} from './run-dialog/run-dialog.component';
 import {SolvService} from './shared/solv.service';
 import { TickComponent } from './tick/tick.component';
 import { RunDetailsComponent } from './run-details/run-details.component';
+import {HttpClientModule} from '@angular/common/http';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
         ),
         CustomMaterialModule,
         LayoutModule,
+        HttpClientModule
     ],
     providers: [SolvService],
     bootstrap: [AppComponent],

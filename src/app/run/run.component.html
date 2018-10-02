@@ -1,8 +1,9 @@
+<button mat-raised-button color="primary" (click)="readEvents()">Read</button>
 <mat-nav-list>
-  <mat-list-item *ngFor="let run of runs" (click)="showInfo(run)">
+  <mat-list-item *ngFor="let event of events" (click)="showInfo(event)">
     <!--button mat-icon-button (click)="showInfo(run)"-->
       <mat-icon>directions_run</mat-icon>
-    <span>{{ run.name }}</span>
+    <span>{{ event.name }}</span>
     <!--/button-->
   </mat-list-item>
 </mat-nav-list>

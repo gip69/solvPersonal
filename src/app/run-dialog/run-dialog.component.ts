@@ -11,7 +11,6 @@ export class RunDialogComponent {
   modalTitle: String;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-      this.modalTitle = data.title;
-      console.log(data);
+      this.modalTitle = data.name;
   }
 }
