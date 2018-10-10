@@ -21,7 +21,11 @@ export class RunComponent implements OnInit {
 
     readEvents() {
         const events = this.solv.getEvents('Pascal Giannini');
-        this.events = events['events'];
+        if (events !== undefined) {
+            this.events = events['events'];
+        } else {
+            console.error('RunComponent.readEvents: events is not defined!');
+        }
         // console.log('Events: ' + JSON.stringify(this.events));
     }
 
@@ -30,7 +34,6 @@ export class RunComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        let t = new Date(parseInt(event.time, 10) * 1000);
 
         dialogConfig.data = event;
 
