@@ -1,4 +1,4 @@
-export interface Event {
+export interface OlEvent {
     id: number;
     name: string;
     date: string;
