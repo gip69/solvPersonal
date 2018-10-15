@@ -11,12 +11,14 @@ import {EventIdRunner} from './eventIdRunner.model';
 export class SolvService {
     @Output() initialized = new EventEmitter<boolean>();
     @Output() myEventsRead = new EventEmitter<boolean>();
+    @Output() readProgress = new EventEmitter<number>();
 
     host = 'http://ol.zimaa.ch';   // 'http://localhost:3010';
     private events;
     myEvents: EventIdRunner[] = [];
     private counter = 0;
     private eventsRunner;
+    private progress = 0;
 
     constructor(private http: HttpClient) {
         this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
@@ -27,6 +29,8 @@ export class SolvService {
     }
 
     readMyEvents(fullname: string) {
+        this.progress = this.counter / this.events.events.length * 100;
+        this.readProgress.emit(this.progress);
         if (this.counter < this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
             this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')

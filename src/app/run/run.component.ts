@@ -16,11 +16,13 @@ import {EventIdRunner} from '../shared/eventIdRunner.model';
 export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     events: OlEvent[];
     eventsRunner: EventIdRunner[];
+    progress = 0;
+    private initialized = false;
 
     // @ViewChild(SolvService) subject: SolvService;
     subscriptionInit: Subscription;
     subscriptionMyEvent: Subscription;
-    private initialized = false;
+    subscriptionProgress: Subscription;
 
     constructor(private dialog: MatDialog, private solv: SolvService) {
     }
@@ -54,6 +56,10 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                         }
                     }, this);
                 }
+            });
+        this.subscriptionProgress = this.solv.readProgress
+            .subscribe((data) => {
+                this.progress = data;
             });
     }
 

@@ -5,7 +5,7 @@ import {
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatDialogModule, MatChipsModule, MatCardModule
+    MatDialogModule, MatChipsModule, MatCardModule, MatProgressBarModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -18,7 +18,8 @@ import {NgModule} from '@angular/core';
         MatToolbarModule,
         MatDialogModule,
         MatChipsModule,
-        MatCardModule
+        MatCardModule,
+        MatProgressBarModule
     ],
     exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
         MatButtonModule,
@@ -28,7 +29,8 @@ import {NgModule} from '@angular/core';
         MatToolbarModule,
         MatDialogModule,
         MatChipsModule,
-        MatCardModule
+        MatCardModule,
+        MatProgressBarModule
     ],
 })
 export class CustomMaterialModule { }
