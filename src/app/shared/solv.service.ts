@@ -29,34 +29,29 @@ export class SolvService {
     readMyEvents(fullname: string) {
         if (this.counter < this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
-            if (id !== 4798) {
-                this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
-                    .subscribe(res => {
-                            for (const runner in res) {
-                                if (res[runner]['fullName'] === fullname) {
-                                    console.log('OlEvent: ' + this.events.events[this.counter]['name']);
-                                    this.myEvents.push({eventId: id, runner: res[runner]});
-                                }
+            this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
+                .subscribe(res => {
+                        for (const runner in res) {
+                            if (res[runner]['fullName'] === fullname) {
+                                console.log('OlEvent: ' + this.events.events[this.counter]['name']);
+                                this.myEvents.push({eventId: id, runner: res[runner]});
                             }
-                            this.counter++;
-                            this.readMyEvents(fullname);
-                        },
-
-                        error => {
-                            console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
-                            this.counter++;
-                            this.readMyEvents(fullname);
                         }
-                    );
-            } else {
-                this.counter++;
-                this.readMyEvents(fullname);
-            }
+                        this.counter++;
+                        this.readMyEvents(fullname);
+                    },
+
+                    error => {
+                        console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
+                        this.counter++;
+                        this.readMyEvents(fullname);
+                    }
+                );
         } else {
             if (this.counter === this.events.events.length) {
                 this.counter = 0;
                 console.log('read all events runner: ' + this.counter);
-                // TODO emit event to runner, that is finished!
+                // emit event to runner, that is finished!
                 this.myEventsRead.emit(true);
             }
         }

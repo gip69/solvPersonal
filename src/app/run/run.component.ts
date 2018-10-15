@@ -6,6 +6,7 @@ import {RunDialogComponent} from '../run-dialog/run-dialog.component';
 import {SolvService} from '../shared/solv.service';
 import {Subscription} from 'rxjs';
 import {OlEvent} from '../shared/olEvent.model';
+import {EventIdRunner} from '../shared/eventIdRunner.model';
 
 @Component({
     selector: 'app-run',
@@ -14,9 +15,12 @@ import {OlEvent} from '../shared/olEvent.model';
 })
 export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     events: OlEvent[];
+    eventsRunner: EventIdRunner[];
+
     // @ViewChild(SolvService) subject: SolvService;
     subscriptionInit: Subscription;
     subscriptionMyEvent: Subscription;
+    private initialized = false;
 
     constructor(private dialog: MatDialog, private solv: SolvService) {
     }
@@ -27,20 +31,28 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     ngAfterViewChecked() {
         this.subscriptionInit = this.solv.initialized
             .subscribe((data) => {
-                console.log('received initialized = ' + data);
-                this.getEvents();
-                this.solv.readMyEvents('Pascal Giannini');
+                if (!this.initialized) {
+                    this.initialized = true;
+                    console.log('received initialized = ' + data);
+                    this.getEvents();
+                    this.solv.readMyEvents('Pascal Giannini');
+                }
             });
         this.subscriptionMyEvent = this.solv.myEventsRead
             .subscribe((data) => {
+                // TODO repeats 329!?!
                 console.log('received myEventsRead = ' + data);
                 const myEvents = this.solv.getMyEvents();
                 if (myEvents !== undefined) {
                     const eventsOld = this.events;
                     this.events = [];
+                    this.eventsRunner = [];
                     myEvents.forEach(function (event, index, array) {
-                        this.events.push(eventsOld.find(x => x.id === event.eventId));
-                    });
+                        if (eventsOld.find(x => x.id === event.eventId) !== undefined) {
+                            this.events.push(eventsOld.find(x => x.id === event.eventId));
+                            this.eventsRunner.push(event);
+                        }
+                    }, this);
                 }
             });
     }
@@ -70,7 +82,11 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
 
-        dialogConfig.data = event;
+        if (this.eventsRunner !== undefined && this.eventsRunner.length > 0) {
+            dialogConfig.data = {event: event, runner: this.eventsRunner.find(x => x.eventId === event.id)};
+        } else {
+            dialogConfig.data = {event: event, runner: { eventId: event.id, runner: { category: '-'}}};
+        }
 
         const dialogRef = this.dialog.open(RunDialogComponent, dialogConfig);
 
