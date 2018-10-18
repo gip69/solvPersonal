@@ -49,7 +49,7 @@ export class RunComponent implements OnInit {
             id: run.nr,
             title: run.name,
             rank: run.rank,
-            time: (t.getHours() - 1) + ':' + t.getMinutes() + ':' + t.getSeconds();
+            time: (t.getHours() - 1) + ':' + t.getMinutes() + ':' + t.getSeconds(),
         };
 
         const dialogRef = this.dialog.open(RunDialogComponent, dialogConfig );
