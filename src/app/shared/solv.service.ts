@@ -31,7 +31,7 @@ export class SolvService {
     readMyEvents(fullname: string) {
         this.progress = this.counter / this.events.events.length * 100;
         this.readProgress.emit(this.progress);
-        if (this.counter < this.events.events.length) {
+        if (this.counter < 10) { // TODO this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
             this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
                 .subscribe(res => {
@@ -52,11 +52,13 @@ export class SolvService {
                     }
                 );
         } else {
-            if (this.counter === this.events.events.length) {
+            if (this.counter === 10) { // TODO this.events.events.length) {
                 this.counter = 0;
                 console.log('read all events runner: ' + this.counter);
                 // emit event to runner, that is finished!
                 this.myEventsRead.emit(true);
+                this.progress = 0;
+                this.readProgress.emit(this.progress);
             }
         }
     }

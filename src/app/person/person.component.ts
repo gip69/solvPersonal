@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Person} from './person.model';
 import {Run} from '../run/run.model';
 
@@ -8,6 +8,8 @@ import {Run} from '../run/run.model';
     styleUrls: ['./person.component.css']
 })
 export class PersonComponent implements OnInit {
+    @Output() activeRunner = new EventEmitter<string>();
+
     persons: Person[] = [
         new Person(
             'Giannini',
@@ -31,7 +33,7 @@ export class PersonComponent implements OnInit {
 
     showRuns(person: Person) {
         console.log('Name: ' + person.name);
-
+        this.activeRunner.emit(person.name);
     }
 
     showInfo(person: Person) {

@@ -5,7 +5,14 @@ import {
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatDialogModule, MatChipsModule, MatCardModule, MatProgressBarModule
+    MatDialogModule,
+    MatChipsModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule, MatSortModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -19,7 +26,9 @@ import {NgModule} from '@angular/core';
         MatDialogModule,
         MatChipsModule,
         MatCardModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
+        MatSortModule, MatTableModule
     ],
     exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
         MatButtonModule,
@@ -30,7 +39,9 @@ import {NgModule} from '@angular/core';
         MatDialogModule,
         MatChipsModule,
         MatCardModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
+        MatSortModule, MatTableModule
     ],
 })
 export class CustomMaterialModule { }

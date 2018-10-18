@@ -1,6 +1,4 @@
 import {AfterViewChecked, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Run} from './run.model';
-import {Time} from '@angular/common';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {RunDialogComponent} from '../run-dialog/run-dialog.component';
 import {SolvService} from '../shared/solv.service';
@@ -14,10 +12,11 @@ import {EventIdRunner} from '../shared/eventIdRunner.model';
     styleUrls: ['./run.component.css']
 })
 export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
-    events: OlEvent[];
+    events: OlEvent[] = [];
     eventsRunner: EventIdRunner[];
     progress = 0;
     private initialized = false;
+    columnsToDisplay: string[] = ['number', 'name', 'date', 'map', 'club', 'link'];
 
     // @ViewChild(SolvService) subject: SolvService;
     subscriptionInit: Subscription;
@@ -53,6 +52,7 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                         if (eventsOld.find(x => x.id === event.eventId) !== undefined) {
                             this.events.push(eventsOld.find(x => x.id === event.eventId));
                             this.eventsRunner.push(event);
+                            // TODO read Result of event an runner with event.id
                         }
                     }, this);
                 }
@@ -89,9 +89,9 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         dialogConfig.autoFocus = true;
 
         if (this.eventsRunner !== undefined && this.eventsRunner.length > 0) {
-            dialogConfig.data = {event: event, runner: this.eventsRunner.find(x => x.eventId === event.id)};
+            dialogConfig.data = {event: event, activeRunner: this.eventsRunner.find(x => x.eventId === event.id)};
         } else {
-            dialogConfig.data = {event: event, runner: { eventId: event.id, runner: { category: '-'}}};
+            dialogConfig.data = {event: event, activeRunner: { eventId: event.id, runner: { category: '-'}}};
         }
 
         const dialogRef = this.dialog.open(RunDialogComponent, dialogConfig);

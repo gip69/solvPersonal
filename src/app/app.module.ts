@@ -46,7 +46,7 @@ const appRoutes: Routes = [
         LayoutModule,
         HttpClientModule
     ],
-    providers: [SolvService],
+    providers: [SolvService, PersonComponent],
     bootstrap: [AppComponent],
     entryComponents: [RunDialogComponent]
 })
