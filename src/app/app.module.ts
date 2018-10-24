@@ -15,6 +15,8 @@ import {SolvService} from './shared/solv.service';
 import { TickComponent } from './tick/tick.component';
 import { RunDetailsComponent } from './run-details/run-details.component';
 import {HttpClientModule} from '@angular/common/http';
+import { SolvDbComponent } from './solv-db/solv-db.component';
+import {SolvDbService} from './shared/solv-db.service';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
         RunComponent,
         RunDialogComponent,
         TickComponent,
-        RunDetailsComponent
+        RunDetailsComponent,
+        SolvDbComponent
     ],
     imports: [
         BrowserModule,
@@ -46,7 +49,7 @@ const appRoutes: Routes = [
         LayoutModule,
         HttpClientModule
     ],
-    providers: [SolvService, PersonComponent],
+    providers: [SolvService, SolvDbService, PersonComponent],
     bootstrap: [AppComponent],
     entryComponents: [RunDialogComponent]
 })

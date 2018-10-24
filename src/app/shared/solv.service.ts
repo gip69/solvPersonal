@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import * as _ from 'lodash';
 import {Runner} from './runner.model';
 import {EventIdRunner} from './eventIdRunner.model';
+import {SolvDbService} from './solv-db.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,7 @@ export class SolvService {
     private eventsRunner;
     private progress = 0;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private solvDb: SolvDbService) {
         this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
             this.events = res;
             console.log('SolvService initialized');
@@ -28,19 +29,26 @@ export class SolvService {
         });
     }
 
+    checkRunner(id: number, fullname: string, runners) {
+        for (const runner in runners) {
+            if (runners[runner]['fullName'] === fullname) {
+                console.log('OlEvent: ' + this.events.events[this.counter]['name']);
+                this.myEvents.push({eventId: id, runner: runners[runner]});
+            }
+        }
+    }
+
     readMyEvents(fullname: string) {
         this.progress = this.counter / this.events.events.length * 100;
         this.readProgress.emit(this.progress);
-        if (this.counter < 10) { // TODO this.events.events.length) {
+        if (this.counter < 30) { // TODO this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
+            // TODO check if read already?
             this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
                 .subscribe(res => {
-                        for (const runner in res) {
-                            if (res[runner]['fullName'] === fullname) {
-                                console.log('OlEvent: ' + this.events.events[this.counter]['name']);
-                                this.myEvents.push({eventId: id, runner: res[runner]});
-                            }
-                        }
+                    // TODO save
+                        this.solvDb.saveEventRunners(id, res);
+                        this.checkRunner(id, fullname, res);
                         this.counter++;
                         this.readMyEvents(fullname);
                     },
@@ -52,7 +60,7 @@ export class SolvService {
                     }
                 );
         } else {
-            if (this.counter === 10) { // TODO this.events.events.length) {
+            if (this.counter === 30) { // TODO this.events.events.length) {
                 this.counter = 0;
                 console.log('read all events runner: ' + this.counter);
                 // emit event to runner, that is finished!
