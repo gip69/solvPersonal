@@ -41,26 +41,32 @@ export class SolvService {
     readMyEvents(fullname: string) {
         this.progress = this.counter / this.events.events.length * 100;
         this.readProgress.emit(this.progress);
-        if (this.counter < 30) { // TODO this.events.events.length) {
+        if (this.counter < 50) { // TODO this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
             // TODO check if read already?
-            this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
-                .subscribe(res => {
-                    // TODO save
-                        this.solvDb.saveEventRunners(id, res);
-                        this.checkRunner(id, fullname, res);
-                        this.counter++;
-                        this.readMyEvents(fullname);
-                    },
+            const event = this.solvDb.getEventRunners(id);
+            if (event === undefined || event === null) {
+                this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
+                    .subscribe(res => {
+                            this.solvDb.saveEventRunners(id, res);
+                            this.checkRunner(id, fullname, res);
+                            this.counter++;
+                            this.readMyEvents(fullname);
+                        },
 
-                    error => {
-                        console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
-                        this.counter++;
-                        this.readMyEvents(fullname);
-                    }
-                );
+                        error => {
+                            console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
+                            this.counter++;
+                            this.readMyEvents(fullname);
+                        }
+                    );
+            } else {
+                this.checkRunner(id, fullname, event);
+                this.counter++;
+                this.readMyEvents(fullname);
+            }
         } else {
-            if (this.counter === 30) { // TODO this.events.events.length) {
+            if (this.counter === 50) { // TODO this.events.events.length) {
                 this.counter = 0;
                 console.log('read all events runner: ' + this.counter);
                 // emit event to runner, that is finished!
@@ -79,34 +85,14 @@ export class SolvService {
         return this.myEvents;
     }
 
-    /*
-    updateRunner(fullname: string) {
-        console.log('updateRunner with ' + fullname);
-        if (this.events !== undefined) {
-            this.events.events.forEach(function (event, index, array) {
-                if (index.id !== 4798) {
-                    console.log('read event ' + index + ' with id ' + event.id);
-                    setTimeout(this.getRunners(event.id, fullname), 100 * index);
-                }
-            }, this);
-        } else {
-            console.error('updateRunner events is not defined!');
+    getEvent(id: number, category: string) {
+        const event = this.solvDb.getEvent(id, category);
+        if (event === undefined || event === null) {
+            this.http.get(this.host + '/api/events/solv/' + id + '/categories/' + category)
+                .subscribe(res => {
+                    // TODO ???
+                });
         }
-    }
-
-    getRunners(eventId: number, fullname: string) {
-        this.http.get<Runner[]>(this.host + '/api/events/solv/' + eventId + '/runners', {headers: new HttpHeaders({timeout: `${20000}`})}).subscribe(res => {
-            for (const runner in res) {
-                if (res[runner]['fullName'] === fullname) {
-                    console.log('Runner: ' + JSON.stringify(runner));
-                    this.myEvents.push(eventId);
-                }
-            }
-        });
-    }
-    */
-
-    getEvent(eventId: number, category: string) {
-        return this.http.get(this.host + '/api/events/solv/' + eventId + '/categories/' + category).subscribe(res => res);
+        return event;
     }
 }
