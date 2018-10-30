@@ -43,7 +43,6 @@ export class SolvService {
         this.readProgress.emit(this.progress);
         if (this.counter < this.events.events.length) { // TODO this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
-            // TODO check if read already?
             this.localStorage.getItem ('eventRunner' + id).subscribe((res) => {
                 if (res != null) {
                     this.checkRunner(id, fullname, res);

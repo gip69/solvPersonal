@@ -42,7 +42,7 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.subscriptionMyEvent = this.solv.myEventsRead
             .subscribe((data) => {
                 // TODO repeats 329!?!
-                console.log('received myEventsRead = ' + data);
+                // console.log('received myEventsRead = ' + data);
                 const myEvents = this.solv.getMyEvents();
                 if (myEvents !== undefined) {
                     const eventsOld = this.events;

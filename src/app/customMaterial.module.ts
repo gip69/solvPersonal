@@ -12,7 +12,7 @@ import {
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule, MatSortModule
+    MatProgressSpinnerModule, MatSortModule, MatSelectModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -28,7 +28,7 @@ import {NgModule} from '@angular/core';
         MatCardModule,
         MatProgressBarModule,
         MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-        MatSortModule, MatTableModule
+        MatSortModule, MatTableModule, MatSelectModule
     ],
     exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
         MatButtonModule,
@@ -41,7 +41,7 @@ import {NgModule} from '@angular/core';
         MatCardModule,
         MatProgressBarModule,
         MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-        MatSortModule, MatTableModule
+        MatSortModule, MatTableModule, MatSelectModule
     ],
 })
 export class CustomMaterialModule { }
