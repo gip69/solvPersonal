@@ -1,10 +1,9 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import * as _ from 'lodash';
 import {Runner} from './runner.model';
 import {EventIdRunner} from './eventIdRunner.model';
-import {SolvDbService} from './solv-db.service';
+import {LocalStorage} from '@ngx-pwa/local-storage';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +20,7 @@ export class SolvService {
     private eventsRunner;
     private progress = 0;
 
-    constructor(private http: HttpClient, private solvDb: SolvDbService) {
+    constructor(private http: HttpClient, protected localStorage: LocalStorage) {
         this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
             this.events = res;
             console.log('SolvService initialized');
@@ -34,6 +33,7 @@ export class SolvService {
             if (runners[runner]['fullName'] === fullname) {
                 console.log('OlEvent: ' + this.events.events[this.counter]['name']);
                 this.myEvents.push({eventId: id, runner: runners[runner]});
+                return;
             }
         }
     }
@@ -41,26 +41,32 @@ export class SolvService {
     readMyEvents(fullname: string) {
         this.progress = this.counter / this.events.events.length * 100;
         this.readProgress.emit(this.progress);
-        if (this.counter < 30) { // TODO this.events.events.length) {
+        if (this.counter < this.events.events.length) { // TODO this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
-            // TODO check if read already?
-            this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
-                .subscribe(res => {
-                    // TODO save
-                        this.solvDb.saveEventRunners(id, res);
-                        this.checkRunner(id, fullname, res);
-                        this.counter++;
-                        this.readMyEvents(fullname);
-                    },
+            this.localStorage.getItem ('eventRunner' + id).subscribe((res) => {
+                if (res != null) {
+                    this.checkRunner(id, fullname, res);
+                    this.counter++;
+                    this.readMyEvents(fullname);
+                } else {
+                    this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
+                        .subscribe(event => {
+                                this.saveEventRunners(id, event);
+                                this.checkRunner(id, fullname, event);
+                                this.counter++;
+                                this.readMyEvents(fullname);
+                            },
 
-                    error => {
-                        console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
-                        this.counter++;
-                        this.readMyEvents(fullname);
-                    }
-                );
+                            error => {
+                                console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
+                                this.counter++;
+                                this.readMyEvents(fullname);
+                            }
+                        );
+                }
+            }, () => {});
         } else {
-            if (this.counter === 30) { // TODO this.events.events.length) {
+            if (this.counter === this.events.events.length) { // TODO this.events.events.length) {
                 this.counter = 0;
                 console.log('read all events runner: ' + this.counter);
                 // emit event to runner, that is finished!
@@ -71,6 +77,15 @@ export class SolvService {
         }
     }
 
+    saveEventRunners(id: number, event) {
+        this.localStorage.setItem('eventRunner' + id, event).subscribe(() => {
+            // Done
+            console.log('SolvDbService.saveEventRunners saved data of event ' + id);
+        }, () => {
+            console.error('SolvDbService.saveEventRunners could not save data of event ' + id + '!');
+        });
+    }
+
     getEvents() {
         return this.events;
     }
@@ -79,34 +94,14 @@ export class SolvService {
         return this.myEvents;
     }
 
-    /*
-    updateRunner(fullname: string) {
-        console.log('updateRunner with ' + fullname);
-        if (this.events !== undefined) {
-            this.events.events.forEach(function (event, index, array) {
-                if (index.id !== 4798) {
-                    console.log('read event ' + index + ' with id ' + event.id);
-                    setTimeout(this.getRunners(event.id, fullname), 100 * index);
-                }
-            }, this);
-        } else {
-            console.error('updateRunner events is not defined!');
+    getEvent(id: number, category: string) {
+        const event = this.getEvent(id, category);
+        if (event === undefined || event === null) {
+            this.http.get(this.host + '/api/events/solv/' + id + '/categories/' + category)
+                .subscribe(res => {
+                    // TODO ???
+                });
         }
-    }
-
-    getRunners(eventId: number, fullname: string) {
-        this.http.get<Runner[]>(this.host + '/api/events/solv/' + eventId + '/runners', {headers: new HttpHeaders({timeout: `${20000}`})}).subscribe(res => {
-            for (const runner in res) {
-                if (res[runner]['fullName'] === fullname) {
-                    console.log('Runner: ' + JSON.stringify(runner));
-                    this.myEvents.push(eventId);
-                }
-            }
-        });
-    }
-    */
-
-    getEvent(eventId: number, category: string) {
-        return this.http.get(this.host + '/api/events/solv/' + eventId + '/categories/' + category).subscribe(res => res);
+        return event;
     }
 }
