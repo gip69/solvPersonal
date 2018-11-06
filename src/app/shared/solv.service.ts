@@ -38,10 +38,16 @@ export class SolvService {
         }
     }
 
+    resetMyEvents(person: string) {
+        if (this.myEvents.length > 0) {
+            this.myEvents = [];
+        }
+    }
+
     readMyEvents(fullname: string) {
         this.progress = this.counter / this.events.events.length * 100;
         this.readProgress.emit(this.progress);
-        if (this.counter < this.events.events.length) { // TODO this.events.events.length) {
+        if (this.counter < this.events.events.length) {
             const id: number = this.events.events[this.counter]['id'];
             this.localStorage.getItem ('eventRunner' + id).subscribe((res) => {
                 if (res != null) {
@@ -66,10 +72,10 @@ export class SolvService {
                 }
             }, () => {});
         } else {
-            if (this.counter === this.events.events.length) { // TODO this.events.events.length) {
-                this.counter = 0;
+            if (this.counter === this.events.events.length) {
                 console.log('read all events runner: ' + this.counter);
-                // emit event to runner, that is finished!
+                this.counter = 0;
+                // emit event to runner, if is finished!
                 this.myEventsRead.emit(true);
                 this.progress = 0;
                 this.readProgress.emit(this.progress);

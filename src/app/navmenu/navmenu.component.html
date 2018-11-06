@@ -7,13 +7,13 @@
     <span class="example-fill-remaining-space"></span>
     <mat-form-field>
       <mat-select [(value)]="selected">
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-        <mat-option value="option3">Option 3</mat-option>
+        <mat-option (onSelectionChange)="change($event)" *ngFor="let person of persons" [value]="person">
+          {{person}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-icon routerLink='/run'>cloud_download</mat-icon>
+    <mat-icon>new person</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container class="example-container">

@@ -17,6 +17,8 @@ import { RunDetailsComponent } from './run-details/run-details.component';
 import {HttpClientModule} from '@angular/common/http';
 import { SolvDbComponent } from './solv-db/solv-db.component';
 import {SolvDbService} from './shared/solv-db.service';
+import {EventMessageService} from './shared/event.message.service';
+import {FormsModule} from '@angular/forms';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -41,6 +43,7 @@ const appRoutes: Routes = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        FormsModule,
         RouterModule.forRoot(
             appRoutes,
             {useHash: true}
@@ -49,7 +52,7 @@ const appRoutes: Routes = [
         LayoutModule,
         HttpClientModule
     ],
-    providers: [SolvService, SolvDbService, PersonComponent],
+    providers: [SolvService, SolvDbService, PersonComponent, EventMessageService],
     bootstrap: [AppComponent],
     entryComponents: [RunDialogComponent]
 })

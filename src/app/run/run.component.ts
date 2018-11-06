@@ -5,6 +5,8 @@ import {SolvService} from '../shared/solv.service';
 import {Subscription} from 'rxjs';
 import {OlEvent} from '../shared/olEvent.model';
 import {EventIdRunner} from '../shared/eventIdRunner.model';
+import {EventMessageService} from '../shared/event.message.service';
+import {LocalStorage} from '@ngx-pwa/local-storage';
 
 @Component({
     selector: 'app-run',
@@ -13,6 +15,7 @@ import {EventIdRunner} from '../shared/eventIdRunner.model';
 })
 export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     events: OlEvent[] = [];
+    eventsAll: OlEvent[] = [];
     eventsRunner: EventIdRunner[];
     progress = 0;
     private initialized = false;
@@ -23,10 +26,18 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     subscriptionMyEvent: Subscription;
     subscriptionProgress: Subscription;
 
-    constructor(private dialog: MatDialog, private solv: SolvService) {
+    constructor(protected localStorage: LocalStorage, private eventMessage: EventMessageService, private dialog: MatDialog, private solv: SolvService) {
     }
 
     ngOnInit() {
+        if (this.initialized) {
+            this.readPersonalEvents();
+        }
+        this.eventMessage.rcvMessage.subscribe(message => {
+            if (message.command === 'CHANGE_PERSON') {
+                this.readPersonalEvents();
+            }
+        });
     }
 
     ngAfterViewChecked() {
@@ -36,21 +47,20 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                     this.initialized = true;
                     console.log('received initialized = ' + data);
                     this.getEvents();
-                    this.solv.readMyEvents('Pascal Giannini');
+                    this.readPersonalEvents();
                 }
             });
         this.subscriptionMyEvent = this.solv.myEventsRead
             .subscribe((data) => {
                 // TODO repeats 329!?!
-                // console.log('received myEventsRead = ' + data);
+                console.log('received myEventsRead = ' + data);
                 const myEvents = this.solv.getMyEvents();
                 if (myEvents !== undefined) {
-                    const eventsOld = this.events;
                     this.events = [];
                     this.eventsRunner = [];
                     myEvents.forEach(function (event, index, array) {
-                        if (eventsOld.find(x => x.id === event.eventId) !== undefined) {
-                            this.events.push(eventsOld.find(x => x.id === event.eventId));
+                        if (this.eventsAll.find(x => x.id === event.eventId) !== undefined) {
+                            this.events.push(this.eventsAll.find(x => x.id === event.eventId));
                             this.eventsRunner.push(event);
                             // TODO read Result of event an runner with event.id
                         }
@@ -68,10 +78,20 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.subscriptionInit.unsubscribe();
     }
 
+    readPersonalEvents() {
+        this.localStorage.getItem ('activeRunner').subscribe((person: string) => {
+            if (person !== undefined && person !== '') {
+                this.solv.resetMyEvents(person);
+                this.solv.readMyEvents(person);
+            }
+        });
+    }
+
     getEvents() {
         const events = this.solv.getEvents();
         if (events !== undefined) {
             this.events = events['events'];
+            this.eventsAll = events['events'];
         } else {
             console.error('RunComponent.getEvents: events is not defined!');
         }
