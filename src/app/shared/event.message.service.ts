@@ -4,12 +4,27 @@ import {Message} from './message.model';
 @Injectable()
 export class EventMessageService {
 
+    rcvMessageNavMenu = new EventEmitter();
+    rcvMessageRun = new EventEmitter();
     rcvMessage = new EventEmitter();
 
     constructor() { }
 
     sendMessage(message: Message) {
-        this.rcvMessage.emit(message);
+        switch (message.receiver) {
+            case 'navmenu': {
+                this.rcvMessageNavMenu.emit(message);
+                break;
+            }
+            case 'run': {
+                this.rcvMessageRun.emit(message);
+                break;
+            }
+            default: {
+                this.rcvMessage.emit(message);
+                break;
+            }
+        }
     }
 
     sendMsg(message: string) {

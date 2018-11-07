@@ -33,7 +33,7 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (this.initialized) {
             this.readPersonalEvents();
         }
-        this.eventMessage.rcvMessage.subscribe(message => {
+        this.eventMessage.rcvMessageRun.subscribe(message => {
             if (message.command === 'CHANGE_PERSON') {
                 this.readPersonalEvents();
             }

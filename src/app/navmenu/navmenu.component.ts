@@ -26,7 +26,7 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
             this.persons = persons;
             // read saved active runner and set in drop down
             this.localStorage.getItem ('activeRunner').subscribe((activeRunner: string) => {
-                if (activeRunner !== undefined && activeRunner !== '') {
+                if (activeRunner !== null && activeRunner !== undefined && activeRunner !== '') {
                     if (this.persons.find( person => person === activeRunner ) !== undefined) {
                         this.selected = activeRunner;
                     }
@@ -34,16 +34,18 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
             });
         }, () => {});
 
-        this.eventMessage.rcvMessage.subscribe(message => {
-            console.log('new person: ' + message.value);
-            if (this.persons.find( person => person === message.value ) === undefined) {
-                this.persons.push(message.value);
-                this.localStorage.setItem('persons', this.persons).subscribe(() => {
-                    // Done
-                    console.log('NavmenuComponent.ngOnInit save new persons');
-                }, () => {
-                    console.error('NavmenuComponent.ngOnInit save error');
-                });
+        this.eventMessage.rcvMessageNavMenu.subscribe(message => {
+            if (message.command === 'NEW_PERSON') {
+                console.log('new person: ' + message.value);
+                if (this.persons.find(person => person === message.value) === undefined) {
+                    this.persons.push(message.value);
+                    this.localStorage.setItem('persons', this.persons).subscribe(() => {
+                        // Done
+                        console.log('NavmenuComponent.ngOnInit save new persons');
+                    }, () => {
+                        console.error('NavmenuComponent.ngOnInit save error');
+                    });
+                }
             }
         });
     }
@@ -60,7 +62,7 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
                 console.error('NavmenuComponent.change save error');
             });
 
-            this.eventMessage.sendCommand('Run', 'Person', 'CHANGE_PERSON', event.source.value);
+            this.eventMessage.sendCommand('run', 'person', 'CHANGE_PERSON', event.source.value);
         }
     }
 }
