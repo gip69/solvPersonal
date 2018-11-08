@@ -19,7 +19,8 @@ export class PersonComponent implements OnInit {
     club: string;
     year: number;
 
-    persons: Person[] = [
+    persons: Person[] = [];
+    /*
         new Person(
             'Giannini',
             'Pascal',
@@ -31,7 +32,7 @@ export class PersonComponent implements OnInit {
             'Andreas',
             'OLG Stäfa',
             1970)
-    ];
+    */
 
     constructor(protected localStorage: LocalStorage, private eventMessage: EventMessageService) {
     }
@@ -39,16 +40,16 @@ export class PersonComponent implements OnInit {
     ngOnInit() {
         // read persons
         this.localStorage.getItem('persons').subscribe((persons: Person[]) => {
-            persons.forEach(function (person, index, array) {
-                this.persons.push(person);
-            }, this);
-        }, () => {});
+            if (persons !== null) {
+                persons.forEach(function (person, index, array) {
+                    this.persons.push(person);
 
-        // distribute persons
-        this.persons.forEach(function (person, index, array) {
-            this.eventMessage.sendCommand('navmenu', 'person', 'NEW_PERSON', person.prename + ' ' + person.name);
-        }, this);
-    }
+                    // distribute persons
+                    this.eventMessage.sendCommand('navmenu', 'person', 'NEW_PERSON', person.prename + ' ' + person.name);
+                }, this);
+            }
+        }, () => {});
+     }
 
     addPerson() {
         console.log('Name: ' + this.name);
@@ -56,7 +57,11 @@ export class PersonComponent implements OnInit {
             // save new person
             const person: Person = {name: this.name, prename: this.prename, club: this.club, year: this.year};
             this.persons.push(person);
-            this.localStorage.setItem('persons', this.persons);
+            this.localStorage.setItem('persons', this.persons).subscribe(() => {
+                console.log('Person.addPerson saved persons');
+            }, () => {
+                console.error('Person.addPerson save error');
+            });
 
             // distribute new person
             this.eventMessage.sendCommand('navmenu', 'person', 'NEW_PERSON', person.prename + ' ' + person.name);

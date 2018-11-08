@@ -22,16 +22,18 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
-        this.localStorage.getItem ('persons').subscribe((persons: string[]) => {
-            this.persons = persons;
-            // read saved active runner and set in drop down
-            this.localStorage.getItem ('activeRunner').subscribe((activeRunner: string) => {
-                if (activeRunner !== null && activeRunner !== undefined && activeRunner !== '') {
-                    if (this.persons.find( person => person === activeRunner ) !== undefined) {
-                        this.selected = activeRunner;
+        this.localStorage.getItem ('personNames').subscribe((persons: string[]) => {
+            if (persons !== null) {
+                this.persons = persons;
+                // read saved active runner and set in drop down
+                this.localStorage.getItem('activeRunner').subscribe((activeRunner: string) => {
+                    if (activeRunner !== null && activeRunner !== undefined && activeRunner !== '') {
+                        if (this.persons.find(person => person === activeRunner) !== undefined) {
+                            this.selected = activeRunner;
+                        }
                     }
-                }
-            });
+                });
+            }
         }, () => {});
 
         this.eventMessage.rcvMessageNavMenu.subscribe(message => {
@@ -39,7 +41,7 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
                 console.log('new person: ' + message.value);
                 if (this.persons.find(person => person === message.value) === undefined) {
                     this.persons.push(message.value);
-                    this.localStorage.setItem('persons', this.persons).subscribe(() => {
+                    this.localStorage.setItem('personNames', this.persons).subscribe(() => {
                         // Done
                         console.log('NavmenuComponent.ngOnInit save new persons');
                     }, () => {
@@ -57,7 +59,7 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
         if (event.isUserInput) {
             console.log(event.source.value, event.source.selected);
             this.localStorage.setItem ('activeRunner', event.source.value).subscribe(() => {
-                console.log('NavmenuComponent.change save active person');
+                console.log('NavmenuComponent.change saved active person');
             }, () => {
                 console.error('NavmenuComponent.change save error');
             });
