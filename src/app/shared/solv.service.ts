@@ -10,7 +10,7 @@ import {LocalStorage} from '@ngx-pwa/local-storage';
 })
 export class SolvService {
     @Output() initialized = new EventEmitter<boolean>();
-    @Output() myEventsRead = new EventEmitter<boolean>();
+    @Output() myEventsRead = new EventEmitter<number>();
     @Output() readProgress = new EventEmitter<number>();
 
     host = 'http://ol.zimaa.ch';   // 'http://localhost:3010';
@@ -19,6 +19,7 @@ export class SolvService {
     private counter = 0;
     private eventsRunner;
     private progress = 0;
+    private dataId = 0;
 
     constructor(private http: HttpClient, protected localStorage: LocalStorage) {
         this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
@@ -75,8 +76,9 @@ export class SolvService {
             if (this.counter === this.events.events.length) {
                 console.log('read all events runner: ' + this.counter);
                 this.counter = 0;
+                this.dataId++;
                 // emit event to runner, if is finished!
-                this.myEventsRead.emit(true);
+                this.myEventsRead.emit(this.dataId);
                 this.progress = 0;
                 this.readProgress.emit(this.progress);
             }

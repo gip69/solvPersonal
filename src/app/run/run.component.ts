@@ -19,6 +19,7 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     eventsRunner: EventIdRunner[];
     progress = 0;
     private initialized = false;
+    private dataId: number = 0;
     columnsToDisplay: string[] = ['number', 'name', 'date', 'map', 'club', 'link'];
 
     // @ViewChild(SolvService) subject: SolvService;
@@ -52,19 +53,21 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
             });
         this.subscriptionMyEvent = this.solv.myEventsRead
             .subscribe((data) => {
-                // TODO repeats 329!?!
-                console.log('received myEventsRead = ' + data);
-                const myEvents = this.solv.getMyEvents();
-                if (myEvents !== undefined) {
-                    this.events = [];
-                    this.eventsRunner = [];
-                    myEvents.forEach(function (event, index, array) {
-                        if (this.eventsAll.find(x => x.id === event.eventId) !== undefined) {
-                            this.events.push(this.eventsAll.find(x => x.id === event.eventId));
-                            this.eventsRunner.push(event);
-                            // TODO read Result of event an runner with event.id
-                        }
-                    }, this);
+                if (data !== this.dataId) {
+                    this.dataId = data;
+                    console.log('received myEventsRead = ' + data);
+                    const myEvents = this.solv.getMyEvents();
+                    if (myEvents !== undefined) {
+                        this.events = [];
+                        this.eventsRunner = [];
+                        myEvents.forEach(function (event, index, array) {
+                            if (this.eventsAll.find(x => x.id === event.eventId) !== undefined) {
+                                this.events.push(this.eventsAll.find(x => x.id === event.eventId));
+                                this.eventsRunner.push(event);
+                                // TODO read Result of event an runner with event.id
+                            }
+                        }, this);
+                    }
                 }
             });
         this.subscriptionProgress = this.solv.readProgress
