@@ -19,10 +19,12 @@ import { SolvDbComponent } from './solv-db/solv-db.component';
 import {SolvDbService} from './shared/solv-db.service';
 import {EventMessageService} from './shared/event.message.service';
 import {FormsModule} from '@angular/forms';
+import { StartComponent } from './start/start.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
     {path: 'person', component: PersonComponent, data: {title: 'Person Component'}},
+    {path: 'start', component: StartComponent, data: {title: 'Start Component'}},
     {path: 'run', component: RunComponent, data: {title: 'Run Component'}},
     {path: 'run/:id', component: RunDetailsComponent, data: {title: 'Run Details Component'}},
     {path: 'tick', component: TickComponent, data: {title: 'Tock Component'}}
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
         RunDialogComponent,
         TickComponent,
         RunDetailsComponent,
-        SolvDbComponent
+        SolvDbComponent,
+        StartComponent
     ],
     imports: [
         BrowserModule,
