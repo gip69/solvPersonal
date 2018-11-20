@@ -1,3 +1,56 @@
-<p>
-  start works!
-</p>
+<h2>{{event}}</h2>
+
+<button (click)="clear()">clear</button>
+<button (click)="save()">save</button>
+<!--dropdown [values]="dropdownValues" (select)="load($event.value)"></dropdown-->
+
+<div class="form-group">
+  <table>
+    <thead>
+    <tr>
+      <td></td>
+      <td>Weg</td>
+      <td>Ort</td>
+      <td>Zeit</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><div class="label">Starttime</div></td>
+      <td><input [(ngModel)]="times.starttime.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
+      <td></td>
+      <td><input type="text" [(ngModel)]="times.starttime.output" class="form-control time" (keyup)="calculate();"></td>
+    </tr>
+    <tr>
+      <td><div class="label">Vorstart</div></td>
+      <td><input [(ngModel)]="times.prestart.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
+      <td><input [(ngModel)]="times.prestart.duration" class="form-control duration" (keyup)="calculate();"></td>
+      <td>{{times.prestart.output}}</td>
+    </tr>
+    <tr>
+      <td><div class="label">Kleiderdepot</div></td>
+      <td><input [(ngModel)]="times.depot.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
+      <td><input [(ngModel)]="times.depot.duration" class="form-control duration" (keyup)="calculate();"></td>
+      <td>{{times.depot.output}}</td>
+    </tr>
+    <tr>
+      <td><div class="label"><div class="item">WKZ</div><input [(ngModel)]="times.wkz.location" class="form-control label" (keyup.enter)="searchConnection();"></div></td>
+      <td><input [(ngModel)]="times.wkz.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
+      <td><input [(ngModel)]="times.wkz.duration" class="form-control duration" (keyup)="calculate();"></td>
+      <td>{{times.wkz.output}}</td>
+    </tr>
+    <tr>
+      <td><div class="label">Bahnhof/Parkplatz</div></td>
+      <td><input [(ngModel)]="times.destination.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
+      <td><input [(ngModel)]="times.destination.duration" class="form-control duration" (keyup)="calculate();"></td>
+      <td>{{times.destination.output}}</td>
+    </tr>
+    <tr>
+      <td><div class="label"><div class="item">Home</div><input [(ngModel)]="times.home.location" class="form-control label" (keyup.enter)="searchConnection();"></div></td>
+      <td></td>
+      <td></td>
+      <td>{{times.home.output}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
