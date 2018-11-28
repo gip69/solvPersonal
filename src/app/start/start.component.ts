@@ -1,16 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ICalendarEvent, NgAddToCalendarService} from '@trademe/ng-add-to-calendar';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css']
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrls: ['./start.component.css']
 })
 export class StartComponent implements OnInit {
     olDate: Date;
     times: any = {};
     person: any = {};
     id: number;
+    host = 'http://ol.zimaa.ch';
+    resultat: string = 'resultat';
+    public appleCalendarEventUrl: SafeUrl;
+    public newEvent: ICalendarEvent;
+    private events;
+    selectedValue;
+
 //    dropdownValues: DropdownValue[] = [];
+    calendars = [
+        {viewvalue: 'Google', value: this._addToCalendarService.calendarType.google},
+        {viewvalue: 'Yahoo', value: this._addToCalendarService.calendarType.yahoo},
+        {viewvalue: 'Apple', value: this._addToCalendarService.calendarType.iCalendar},
+        {viewvalue: 'Windows', value: this._addToCalendarService.calendarType.outlook}
+    ];
 
 
     // TODO: Grafik mit Linien analog Weisungen (je nach Zeiten einfärben, wo man sein sollte)
@@ -21,19 +37,37 @@ export class StartComponent implements OnInit {
 
     ols: String[] = ['rigi1', 'rigi2', 'jomsl'];
 
-  constructor() { }
+    constructor(private http: HttpClient, private _addToCalendarService: NgAddToCalendarService,
+                private _sanitizer: DomSanitizer) {
+        this.id = 123;
+        this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
+            this.events = res;
+        });
+        this.newEvent = {
+            title: 'OL',
+            start: new Date('November 25, 2018 08:00'),
+            duration: 5,
+            end: new Date('November 25, 2018 08:05'),
+            address: 'WKZ',
+            description: 'OL Event'
+        };
 
-  ngOnInit() {
-      this.times = JSON.parse(localStorage.getItem('times'));
-      this.clear();
-  }
+        this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
+            this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
+        );
+    }
+
+    ngOnInit() {
+        this.times = JSON.parse(localStorage.getItem('times'));
+        this.clear();
+    }
 
     calculate() {
         console.log('calculate'); // 2011-04-11T10:20:30
         // Starttime
-        this.times.starttime.time = this.getDate(this.times.starttime.output).getTime();
+        this.times.start.time = this.getDate(this.times.start.output).getTime();
         // Prestart
-        this.times.prestart.time = this.times.starttime.time - this.inMilliseconds(this.times.starttime.wayDuration);
+        this.times.prestart.time = this.times.start.time - this.inMilliseconds(this.times.start.wayDuration);
         this.times.prestart.output = this.short(this.getDate(this.times.prestart.time).toLocaleTimeString());
         // Depot
         this.times.depot.time = this.times.prestart.time - this.inMilliseconds(this.times.prestart.duration) - this.inMilliseconds(this.times.prestart.wayDuration);
@@ -42,56 +76,46 @@ export class StartComponent implements OnInit {
         this.times.wkz.time = this.times.depot.time - this.inMilliseconds(this.times.depot.duration) - this.inMilliseconds(this.times.depot.wayDuration);
         this.times.wkz.output = this.short(this.getDate(this.times.wkz.time).toLocaleTimeString());
         // Destination
-        this.times.destination.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayDuration);
-        this.times.destination.output = this.short(this.getDate(this.times.destination.time).toLocaleTimeString());
+        this.times.car.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayCarDuration);
+        this.times.car.output = this.short(this.getDate(this.times.car.time).toLocaleTimeString());
+        this.times.train.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayTrainDuration);
+        this.times.train.output = this.short(this.getDate(this.times.train.time).toLocaleTimeString());
         // Home
-        this.times.home.time = this.times.destination.time - this.inMilliseconds(this.times.destination.duration) - this.inMilliseconds(this.times.destination.wayDuration);
-        this.times.home.output = this.short(this.getDate(this.times.home.time).toLocaleTimeString());
+        this.times.homeCar.time = this.times.car.time - this.inMilliseconds(this.times.car.duration) - this.inMilliseconds(this.times.car.wayDuration);
+        this.times.homeCar.output = this.short(this.getDate(this.times.homeCar.time).toLocaleTimeString());
+        this.times.homeTrain.time = this.times.train.time - this.inMilliseconds(this.times.train.duration) - this.inMilliseconds(this.times.train.wayDuration);
+        this.times.homeTrain.output = this.short(this.getDate(this.times.homeTrain.time).toLocaleTimeString());
 
+        this.newEvent.start = new Date('November 25, 2018 ' + this.times.homeTrain.output);
+        this.newEvent.end = new Date('November 25, 2018 ' + this.times.start.output);
+        this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
+            this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
+        );
         localStorage.setItem('times', JSON.stringify(this.times));
     }
 
     clear() {
-        /*StartCollection.find({}).forEach(function(i, item) {
-            let dropdown : DropdownValue = new DropdownValue(item.label, item.label);
-            this.dropdownValues.push(dropdown);
-        });*/
-
         console.log('clear');
         this.times = {
             name: 'name',
-            home: {time: 0, output: '', location: 'Männedorf'},
-            destination: {time: 0, duration: 5, wayDuration: 0, output: ''},
-            wkz: {time: 0, duration: 20, wayDuration: 0, output: '', location: ''},
+            homeCar: {time: 0, output: '', location: 'Männedorf'},
+            homeTrain: {time: 0, output: ''},
+            car: {time: 0, duration: 5, wayDuration: 0, output: ''},
+            train: {time: 0, duration: 5, wayDuration: 0, output: ''},
+            wkz: {time: 0, duration: 20, wayCarDuration: 0, wayTrainDuration: 0, output: '', location: ''},
             depot: {time: 0, duration: 0, wayDuration: 0, output: ''},
             prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
-            starttime: {time: 0, wayDuration: 4, output: ''}
+            start: {time: 0, wayDuration: 4, output: '8:00'}
         };
         this.calculate();
     }
 
     save() {
         console.log('save OL');
-        /*let olstart = StartCollection.findOne({label: this.times.name});
-        if (olstart) {
-            // TODO Abfrage wirklich sichern
-            StartCollection.update({_id: olstart._id}, {$set: {content: this.times}});
-        } else {
-            StartCollection.insert({label: this.times.name, content: this.times});
-            this.dropdownValues.push(this.times.name);
-        }*/
     }
 
     load(olname) {
         console.log('load OL');
-        /*var times = StartCollection.findOne({label: olname});
-        if (times !== undefined) {
-            this.times = times['content'];
-
-            this.calculate();
-        } else {
-            console.log('Keinen Eintrag gefunden!');
-        }*/
     }
 
     inMilliseconds(minutes) {
@@ -136,5 +160,9 @@ export class StartComponent implements OnInit {
         }
         // console.log("Date: " + dateString);
         return new Date(dateString);
+    }
+
+    changeOl(event) {
+        console.log('new ol: ' + this.selectedValue + ' oder ' + event.value);
     }
 }

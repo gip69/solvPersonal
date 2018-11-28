@@ -46,41 +46,44 @@ export class SolvService {
     }
 
     readMyEvents(fullname: string) {
-        this.progress = this.counter / this.events.events.length * 100;
-        this.readProgress.emit(this.progress);
-        if (this.counter < this.events.events.length) {
-            const id: number = this.events.events[this.counter]['id'];
-            this.localStorage.getItem ('eventRunner' + id).subscribe((res) => {
-                if (res != null) {
-                    this.checkRunner(id, fullname, res);
-                    this.counter++;
-                    this.readMyEvents(fullname);
-                } else {
-                    this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
-                        .subscribe(event => {
-                                this.saveEventRunners(id, event);
-                                this.checkRunner(id, fullname, event);
-                                this.counter++;
-                                this.readMyEvents(fullname);
-                            },
+        if (this.events) {
+            this.progress = this.counter / this.events.events.length * 100;
+            this.readProgress.emit(this.progress);
+            if (this.counter < this.events.events.length) {
+                const id: number = this.events.events[this.counter]['id'];
+                this.localStorage.getItem('eventRunner' + id).subscribe((res) => {
+                    if (res != null) {
+                        this.checkRunner(id, fullname, res);
+                        this.counter++;
+                        this.readMyEvents(fullname);
+                    } else {
+                        this.http.get<Runner[]>(this.host + '/api/events/solv/' + id + '/runners')
+                            .subscribe(event => {
+                                    this.saveEventRunners(id, event);
+                                    this.checkRunner(id, fullname, event);
+                                    this.counter++;
+                                    this.readMyEvents(fullname);
+                                },
 
-                            error => {
-                                console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
-                                this.counter++;
-                                this.readMyEvents(fullname);
-                            }
-                        );
+                                error => {
+                                    console.log('error event ' + this.events.events[this.counter]['name'] + ': ' + error.statusText);
+                                    this.counter++;
+                                    this.readMyEvents(fullname);
+                                }
+                            );
+                    }
+                }, () => {
+                });
+            } else {
+                if (this.counter === this.events.events.length) {
+                    console.log('read all events runner: ' + this.counter);
+                    this.counter = 0;
+                    this.dataId++;
+                    // emit event to runner, if is finished!
+                    this.myEventsRead.emit(this.dataId);
+                    this.progress = 0;
+                    this.readProgress.emit(this.progress);
                 }
-            }, () => {});
-        } else {
-            if (this.counter === this.events.events.length) {
-                console.log('read all events runner: ' + this.counter);
-                this.counter = 0;
-                this.dataId++;
-                // emit event to runner, if is finished!
-                this.myEventsRead.emit(this.dataId);
-                this.progress = 0;
-                this.readProgress.emit(this.progress);
             }
         }
     }

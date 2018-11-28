@@ -1,4 +1,10 @@
-<p>
-  tick works!
-
-</p>
+<mat-form-field>
+  <mat-select placeholder="Client*" #clientValue [(ngModel)]="selectedValue" (change)="changeClient($event.value)">
+    <mat-option  *ngFor="let client of clients"   [value]="client.value">
+      {{client.viewvalue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-icon-button (click)="addToCalendar()">
+  <mat-icon>directions_run</mat-icon>
+</button>

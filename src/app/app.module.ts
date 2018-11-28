@@ -1,5 +1,5 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
+import {NgModule, NO_ERRORS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
@@ -20,6 +20,7 @@ import {SolvDbService} from './shared/solv-db.service';
 import {EventMessageService} from './shared/event.message.service';
 import {FormsModule} from '@angular/forms';
 import { StartComponent } from './start/start.component';
+import {NgAddToCalendarModule} from '@trademe/ng-add-to-calendar';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -29,6 +30,14 @@ const appRoutes: Routes = [
     {path: 'run/:id', component: RunDetailsComponent, data: {title: 'Run Details Component'}},
     {path: 'tick', component: TickComponent, data: {title: 'Tock Component'}}
 ];
+
+@Pipe({ name: 'safeHtml' })
+export class SafeHtmlPipe implements PipeTransform {
+    constructor(private sanitizer: DomSanitizer) {}
+    transform(url) {
+        return this.sanitizer.bypassSecurityTrustHtml(url);
+    }
+}
 
 @NgModule({
     declarations: [
@@ -41,7 +50,8 @@ const appRoutes: Routes = [
         TickComponent,
         RunDetailsComponent,
         SolvDbComponent,
-        StartComponent
+        StartComponent,
+        SafeHtmlPipe
     ],
     imports: [
         BrowserModule,
@@ -53,11 +63,15 @@ const appRoutes: Routes = [
         ),
         CustomMaterialModule,
         LayoutModule,
-        HttpClientModule
+        HttpClientModule,
+        NgAddToCalendarModule
     ],
     providers: [SolvService, SolvDbService, PersonComponent, EventMessageService],
     bootstrap: [AppComponent],
-    entryComponents: [RunDialogComponent]
+    entryComponents: [RunDialogComponent],
+    schemas: [
+        NO_ERRORS_SCHEMA
+    ]
 })
 export class AppModule {
 }
