@@ -1,6 +1,14 @@
 <div class="content">
   <mat-toolbar>
     <mat-toolbar-row>
+      <mat-form-field>
+        <input matInput placeholder="Datum" [(ngModel)]="times.date" type="date">
+        <!--mat-select placeholder="OL Events" [(ngModel)]="selectedValue" (change)="changeOl($event.value)">
+          <mat-option *ngFor="let event of events.events" [value]="event.id" (click)="printOut(events.events)">
+            {{event.name}}
+          </mat-option>
+        </mat-select-->
+      </mat-form-field>
       <button mat-button (click)="clear()" color="primary">
         löschen
       </button>

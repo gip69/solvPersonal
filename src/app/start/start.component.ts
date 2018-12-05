@@ -14,13 +14,12 @@ export class StartComponent implements OnInit {
     person: any = {};
     id: number;
     host = 'http://ol.zimaa.ch';
-    resultat: string = 'resultat';
+    url = 'https://www.o-l.ch/cgi-bin/fixtures?&year=2019&link=';
     public appleCalendarEventUrl: SafeUrl;
     public newEvent: ICalendarEvent;
     private events;
     selectedValue;
 
-//    dropdownValues: DropdownValue[] = [];
     calendars = [
         {viewvalue: 'Google', value: this._addToCalendarService.calendarType.google},
         {viewvalue: 'Yahoo', value: this._addToCalendarService.calendarType.yahoo},
@@ -32,7 +31,6 @@ export class StartComponent implements OnInit {
     // TODO: Grafik mit Linien analog Weisungen (je nach Zeiten einfärben, wo man sein sollte)
 
     // TODO dropdown with all ol from solv (next first)
-    // TODO save times for ol
     public event: String = 'OL';
 
     ols: String[] = ['rigi1', 'rigi2', 'jomsl'];
@@ -55,6 +53,12 @@ export class StartComponent implements OnInit {
         this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
             this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
         );
+
+        
+    }
+
+    printOut(event) {
+        console.log(JSON.stringify(event));
     }
 
     ngOnInit() {
@@ -86,8 +90,8 @@ export class StartComponent implements OnInit {
         this.times.homeTrain.time = this.times.train.time - this.inMilliseconds(this.times.train.duration) - this.inMilliseconds(this.times.train.wayDuration);
         this.times.homeTrain.output = this.short(this.getDate(this.times.homeTrain.time).toLocaleTimeString());
 
-        this.newEvent.start = new Date('November 25, 2018 ' + this.times.homeTrain.output);
-        this.newEvent.end = new Date('November 25, 2018 ' + this.times.start.output);
+        this.newEvent.start = new Date(this.times.date + ' ' + this.times.homeTrain.output);
+        this.newEvent.end = new Date(this.times.date + ' ' + this.times.start.output);
         this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
             this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
         );
