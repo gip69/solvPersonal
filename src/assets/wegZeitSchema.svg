@@ -244,8 +244,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.9587996"
-     inkscape:cx="433.48971"
-     inkscape:cy="33.871719"
+     inkscape:cx="515.8844"
+     inkscape:cy="-91.284779"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -262,7 +262,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -273,7 +273,7 @@
      transform="translate(0,-257)">
     <g
        id="g4570"
-       transform="matrix(0.29912802,0,0,0.29912802,205.61597,283.28196)">
+       transform="matrix(0.29912802,0,0,0.29912802,208.26182,286.98615)">
       <path
          id="path4556"
          d="M 12,7.77 18.39,18 H 5.61 L 12,7.77 M 12,4 2,20 h 20 z"
@@ -444,34 +444,34 @@
          style="stroke-width:0.299128">{{times.wkz.wayTrainDuration}}'</tspan></text>
     <text
        id="text6455"
-       y="263.83865"
-       x="51.806129"
+       y="263.30948"
+       x="46.514458"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
        xml:space="preserve"><tspan
          style="stroke-width:0.299128"
-         y="263.83865"
-         x="51.806129"
+         y="263.30948"
+         x="46.514458"
          sodipodi:role="line"
          id="tspan2482">{{times.car.output}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.6;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill:#00c500;fill-opacity:1;stroke:none;stroke-width:0.299128;"
        x="14.795116"
-       y="270.7186"
+       y="263.83865"
        id="text6459"><tspan
          sodipodi:role="line"
          id="tspan6457"
          x="14.795116"
-         y="270.7186"
-         style="stroke-width:0.299128">{{times.homeCar.output}}</tspan></text>
+         y="263.83865"
+         style="fill:#00c500;fill-opacity:1;stroke-width:0.299128;">{{times.homeCar.output}}</tspan></text>
     <text
        id="text6463"
-       y="285.67499"
+       y="293.40167"
        x="14.795116"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.6;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill:#00c500;fill-opacity:1;stroke:none;stroke-width:0.299128;"
        xml:space="preserve"><tspan
-         style="stroke-width:0.299128"
-         y="285.67499"
+         style="stroke-width:0.299128;fill:#00c500;fill-opacity:1;"
+         y="293.40167"
          x="14.795116"
          id="tspan6461"
          sodipodi:role="line">{{times.homeTrain.output}}</tspan></text>
@@ -510,30 +510,31 @@
        d="m 153.14507,277.25429 c 40.61171,0.29558 40.95015,0.29558 40.95015,0.29558"
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.31627932px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker6645)" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.299128px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker6951)"
-       d="m 199.09859,279.94279 c 7.11561,5.7322 7.11561,5.7322 7.11561,5.7322"
+       style="fill:none;stroke:#000000;stroke-width:0.37951517px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker6951)"
+       d="m 199.03918,279.86709 9.22264,7.11906"
        id="path6947"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
     <text
        id="text7033"
-       y="280.88895"
-       x="202.7744"
+       y="281.9473"
+       x="204.36188"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
        xml:space="preserve"><tspan
          style="stroke-width:0.299128"
-         y="280.88895"
-         x="202.7744"
+         y="281.9473"
+         x="204.36188"
          id="tspan7031"
          sodipodi:role="line">{{times.start.wayDuration}}'</tspan></text>
     <text
        id="text7037"
        y="274.60724"
-       x="181.42081"
+       x="178.77501"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
        xml:space="preserve"><tspan
          style="stroke-width:0.299128"
          y="274.60724"
-         x="181.42081"
+         x="178.77501"
          id="tspan7035"
          sodipodi:role="line">{{times.prestart.wayDuration}}'</tspan></text>
     <text
@@ -551,27 +552,27 @@
          sodipodi:role="line">{{times.depot.output}}</tspan></text>
     <text
        id="svgTrainDeparture"
-       y="293.52139"
-       x="51.806129"
+       y="294.05057"
+       x="46.514458"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
        xml:space="preserve"><tspan
          style="stroke-width:0.299128"
-         y="293.52139"
-         x="51.806129"
+         y="294.05057"
+         x="46.514458"
          sodipodi:role="line"
          id="tspan2478">{{times.train.output}}</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#fe0000;stroke-width:0.299128;stroke-opacity:1"
-       x="188.6799"
-       y="290.54111"
+       x="195.02982"
+       y="293.18698"
        id="svgStarttime"
        inkscape:transform-center-x="10.583333"
        inkscape:transform-center-y="0.26458333"><tspan
          sodipodi:role="line"
          id="tspan1092"
-         x="188.6799"
-         y="290.54111"
+         x="195.02982"
+         y="293.18698"
          style="stroke:#fe0000;stroke-width:0.299128;stroke-opacity:1">{{times.start.output}}</tspan></text>
     <g
        id="g1562"
@@ -600,12 +601,12 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
-       x="145.58456"
+       x="146.64288"
        y="289.10614"
        id="svgDepotDuration"><tspan
          id="tspan2754"
          sodipodi:role="line"
-         x="145.58456"
+         x="146.64288"
          y="289.10614"
          style="stroke-width:0.299128">{{times.depot.duration}}'</tspan></text>
     <text
@@ -619,5 +620,60 @@
          x="81.531509"
          sodipodi:role="line"
          id="tspan2758">{{times.wkz.location}}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       x="36.904682"
+       y="277.91223"
+       id="text993"><tspan
+         id="tspan991"
+         sodipodi:role="line"
+         x="36.904682"
+         y="277.91223"
+         style="stroke-width:0.299128">{{times.wkz.location}}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888855px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="44.704338"
+       y="260.57425"
+       id="text997"><tspan
+         sodipodi:role="line"
+         id="tspan995"
+         x="44.704338"
+         y="265.02298"
+         style="stroke-width:0.26458332"></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       x="1.6176028"
+       y="283.74332"
+       id="text1001"><tspan
+         sodipodi:role="line"
+         id="tspan999"
+         x="1.6176028"
+         y="283.74332"
+         style="stroke-width:0.299128">{{times.homeCar.location}}</tspan></text>
+    <text
+       id="text1005"
+       y="289.35641"
+       x="88.31086"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.299128"
+         y="289.35641"
+         x="88.31086"
+         id="tspan1003"
+         sodipodi:role="line">{{times.wkz.duration}}'</tspan></text>
+    <text
+       id="text1033"
+       y="285.22006"
+       x="192.10684"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.299128"
+         y="285.22006"
+         x="192.10684"
+         sodipodi:role="line"
+         id="tspan1031">{{times.prestart.duration}}'</tspan></text>
   </g>
 </svg>

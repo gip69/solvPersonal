@@ -1,0 +1,51 @@
+.content {
+    height: 400px;
+}
+.firstCol {
+    width: 7em;
+}
+
+.secondCol {
+    width: 3em;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}
+
+.formTimes {
+    width: 600px;
+}
+
+.times {
+    margin-left: 5px;
+}
+
+.times.first {
+    margin-left: 100px;
+}
+.inputTime {
+    width: 6em;
+    height: 30px;
+}
+
+.inputDurationVerySmall {
+    width: 4em;
+}
+.inputDurationSmall {
+    width: 5em;
+}
+
+.inputDuration {
+    width: 6em;
+    height: 30px;
+}
+
+.inputDurationMiddle {
+    width: 7em;
+}
+
+.inputDurationLong {
+    width: 8em;
+}
+
