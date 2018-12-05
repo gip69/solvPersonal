@@ -59,7 +59,7 @@ export class StartComponent implements OnInit {
 
     ngOnInit() {
         this.times = JSON.parse(localStorage.getItem('times'));
-        this.clear();
+        //this.clear();
     }
 
     calculate() {
