@@ -50,3 +50,10 @@ mat-grid-tile {
     width: 8em;
 }
 
+.btn {
+    text-decoration: none;
+}
+
+.place {
+    margin-left: 2em;
+}

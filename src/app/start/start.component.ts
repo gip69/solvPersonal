@@ -15,6 +15,7 @@ export class StartComponent implements OnInit {
     id: number;
     host = 'http://ol.zimaa.ch';
     url = 'https://www.o-l.ch/cgi-bin/fixtures?&year=2019&link=';
+    urlOV = 'https://transport.opendata.ch/v1/connections';
     public appleCalendarEventUrl: SafeUrl;
     public newEvent: ICalendarEvent;
     private events;
@@ -53,8 +54,6 @@ export class StartComponent implements OnInit {
         this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
             this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
         );
-
-        
     }
 
     printOut(event) {
@@ -64,12 +63,17 @@ export class StartComponent implements OnInit {
     ngOnInit() {
         this.times = JSON.parse(localStorage.getItem('times'));
         //this.clear();
+        /*let contentSolv = this._sanitizer.bypassSecurityTrustHtml(this.url);
+                console.log(contentSolv);*/
+        /*this.http.get(this.url).subscribe(
+            data => console.log('Data: ' + data)
+        );*/
     }
 
     calculate() {
         console.log('calculate'); // 2011-04-11T10:20:30
         // Starttime
-        this.times.start.time = this.getDate(this.times.start.output).getTime();
+        this.times.start.time = this.getDate(this.times.date + ' ' + this.times.start.output).getTime();
         // Prestart
         this.times.prestart.time = this.times.start.time - this.inMilliseconds(this.times.start.wayDuration);
         this.times.prestart.output = this.short(this.getDate(this.times.prestart.time).toLocaleTimeString());
@@ -102,7 +106,7 @@ export class StartComponent implements OnInit {
         console.log('clear');
         this.times = {
             name: 'name',
-            homeCar: {time: 0, output: '', location: 'Männedorf'},
+            homeCar: {time: 0, output: '', location: ''},
             homeTrain: {time: 0, output: ''},
             car: {time: 0, duration: 5, wayDuration: 0, output: ''},
             train: {time: 0, duration: 5, wayDuration: 0, output: ''},
@@ -168,5 +172,23 @@ export class StartComponent implements OnInit {
 
     changeOl(event) {
         console.log('new ol: ' + this.selectedValue + ' oder ' + event.value);
+    }
+
+    calculateOev() {
+        if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
+            let url = this.urlOV + '?from=' + this.times.homeCar.location + '&to=' + this.times.wkz.location;
+            url += '&date=' + this.times.date + '&time=' + this.times.train.output + '&isArrivalTime=1&limit=1';
+            console.log('Url: ' + url);
+            this.http.get(url).subscribe(
+                data => {
+                    console.log(data);
+                    let from = data['connections'][0].from.departureTimestamp + 3600;
+                    let to = this.times.train.time / 1000;
+                    this.times.train.wayDuration =  (to - from) / 60;
+                    console.log('from ' + from + ' to ' + to + ' = ' + this.times.train.wayDuration);
+                    this.calculate();
+                }
+            );
+        }
     }
 }
