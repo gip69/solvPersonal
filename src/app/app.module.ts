@@ -28,7 +28,7 @@ const appRoutes: Routes = [
     {path: 'start', component: StartComponent, data: {title: 'Start Component'}},
     {path: 'run', component: RunComponent, data: {title: 'Run Component'}},
     {path: 'run/:id', component: RunDetailsComponent, data: {title: 'Run Details Component'}},
-    {path: 'tick', component: TickComponent, data: {title: 'Tock Component'}}
+    {path: 'tick', component: TickComponent, data: {title: 'Tick Component'}}
 ];
 
 @Pipe({ name: 'safeHtml' })

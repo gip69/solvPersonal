@@ -38,6 +38,7 @@ export class StartComponent implements OnInit {
 
     constructor(private http: HttpClient, private _addToCalendarService: NgAddToCalendarService,
                 private _sanitizer: DomSanitizer) {
+        this.init();
         this.id = 123;
         this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
             this.events = res;
@@ -70,6 +71,28 @@ export class StartComponent implements OnInit {
         );*/
     }
 
+    init() {
+        this.times = {
+            date: '',
+            name: 'name',
+            homeCar: {time: 0, output: '', location: ''},
+            homeTrain: {time: 0, output: ''},
+            car: {time: 0, duration: 5, wayDuration: 0, output: ''},
+            train: {time: 0, duration: 5, wayDuration: 0, output: ''},
+            wkz: {time: 0, duration: 20, wayCarDuration: 0, wayTrainDuration: 0, output: '', location: ''},
+            depot: {time: 0, duration: 0, wayDuration: 0, output: ''},
+            prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
+            start: {time: 0, wayDuration: 4, output: '8:00'}
+        };
+        localStorage.setItem('times', JSON.stringify(this.times));
+    }
+
+    clear() {
+        console.log('clear');
+        this.init();
+        this.calculate();
+    }
+
     calculate() {
         console.log('calculate'); // 2011-04-11T10:20:30
         // Starttime
@@ -100,22 +123,6 @@ export class StartComponent implements OnInit {
             this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
         );
         localStorage.setItem('times', JSON.stringify(this.times));
-    }
-
-    clear() {
-        console.log('clear');
-        this.times = {
-            name: 'name',
-            homeCar: {time: 0, output: '', location: ''},
-            homeTrain: {time: 0, output: ''},
-            car: {time: 0, duration: 5, wayDuration: 0, output: ''},
-            train: {time: 0, duration: 5, wayDuration: 0, output: ''},
-            wkz: {time: 0, duration: 20, wayCarDuration: 0, wayTrainDuration: 0, output: '', location: ''},
-            depot: {time: 0, duration: 0, wayDuration: 0, output: ''},
-            prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
-            start: {time: 0, wayDuration: 4, output: '8:00'}
-        };
-        this.calculate();
     }
 
     save() {
