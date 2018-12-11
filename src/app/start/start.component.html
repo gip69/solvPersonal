@@ -707,15 +707,19 @@
   </div>
 
   <div>
-    <mat-form-field appearance="outline" class="times first inputDuration">
+    <mat-form-field appearance="outline" class="times first inputDurationSmall">
+      <mat-label>zum Auto</mat-label>
+      <input matInput placeholder="Minuten" [(ngModel)]="times.car.duration" (keyup)="calculate();">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="times inputDurationSmall">
       <mat-label>Autofahrt</mat-label>
       <input matInput placeholder="Minuten" [(ngModel)]="times.car.wayDuration" (keyup)="calculate();">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="times inputDuration">
+    <mat-form-field appearance="outline" class="times inputDurationSmall">
       <mat-label>zum WKZ</mat-label>
       <input matInput placeholder="Minuten" [(ngModel)]="times.wkz.wayCarDuration" (keyup)="calculate();">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="times wkz inputDurationSmall">
+    <mat-form-field appearance="outline" class="times wkz inputDuration">
       <mat-label>WKZ</mat-label>
       <input matInput placeholder="Minuten" [(ngModel)]="times.wkz.duration" (keyup)="calculate();">
     </mat-form-field>
@@ -741,110 +745,17 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field appearance="outline" class="times first inputDuration">
+    <mat-form-field appearance="outline" class="times first inputDurationSmall">
+      <mat-label>zur Station</mat-label>
+      <input matInput placeholder="Minuten" [(ngModel)]="times.train.duration" (keyup)="calculate();">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="times inputDurationSmall">
       <mat-label>ÖV</mat-label>
       <input matInput placeholder="Minuten" [(ngModel)]="times.train.wayDuration" (keyup)="calculate();">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="times inputDuration">
+    <mat-form-field appearance="outline" class="times inputDurationSmall">
       <mat-label>zum WKZ</mat-label>
       <input matInput placeholder="Minuten" [(ngModel)]="times.wkz.wayTrainDuration" (keyup)="calculate();">
     </mat-form-field>
   </div>
-  <!--div class="form-group">
-    <table>
-      <thead>
-      <tr>
-        <td class="firstCol">
-        </td>
-        <td class="secondCol">Dauer</td>
-        <td class="thirdCol"></td>
-        <td class="forthCol">Zeit</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>
-          <div class="label">Startzeit</div>
-        </td>
-        <td><input [(ngModel)]="times.start.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td><input type="text" [(ngModel)]="times.start.output" class="form-control time" (keyup)="calculate();"></td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">Vorstart</div>
-        </td>
-        <td><input [(ngModel)]="times.prestart.duration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td>{{times.prestart.output}}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input [(ngModel)]="times.prestart.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">Depot</div>
-        </td>
-        <td><input [(ngModel)]="times.depot.duration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td>{{times.depot.output}}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input [(ngModel)]="times.depot.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">WKZ</div>
-        </td>
-        <td><input [(ngModel)]="times.wkz.duration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-        <td>{{times.wkz.output}}</td>
-      </tr>
-      </tbody>
-    </table>
-    <table>
-      <tbody>
-      <tr>
-        <td class="firstCol"><input [(ngModel)]="times.wkz.location" class="form-control label"
-                                    (keyup.enter)="searchConnection();"></td>
-        <td><input [(ngModel)]="times.wkz.wayCarDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td><input [(ngModel)]="times.wkz.wayTrainDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">Parkplatz</div>
-        </td>
-        <td><input [(ngModel)]="times.car.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td><input [(ngModel)]="times.car.duration" class="form-control duration" (keyup)="calculate();"></td>
-        <td>{{times.car.output}}</td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">Bahnhof</div>
-        </td>
-        <td><input [(ngModel)]="times.train.wayDuration" class="form-control duration" (keyup)="calculate();"></td>
-        <td><input [(ngModel)]="times.train.duration" class="form-control duration" (keyup)="calculate();"></td>
-        <td>{{times.train.output}}</td>
-      </tr>
-      <tr>
-        <td>
-          <div class="label">
-            <div class="item">Home Car</div>
-            <input [(ngModel)]="times.homeCar.location" class="form-control label" (keyup.enter)="searchConnection();">
-          </div>
-        </td>
-        <td></td>
-        <td></td>
-        <td>{{times.homeCar.output}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div-->
 </div>

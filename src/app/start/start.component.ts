@@ -78,7 +78,7 @@ export class StartComponent implements OnInit {
             homeCar: {time: 0, output: '', location: ''},
             homeTrain: {time: 0, output: ''},
             car: {time: 0, duration: 5, wayDuration: 0, output: ''},
-            train: {time: 0, duration: 5, wayDuration: 0, output: ''},
+            train: {time: 0, duration: 10, wayDuration: 0, output: ''},
             wkz: {time: 0, duration: 20, wayCarDuration: 0, wayTrainDuration: 0, output: '', location: ''},
             depot: {time: 0, duration: 0, wayDuration: 0, output: ''},
             prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
