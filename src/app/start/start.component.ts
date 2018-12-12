@@ -182,6 +182,7 @@ export class StartComponent implements OnInit {
     }
 
     calculateOev() {
+        this.calculateCar();
         if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
             let url = this.urlOV + '?from=' + this.times.homeCar.location + '&to=' + this.times.wkz.location;
             url += '&date=' + this.times.date + '&time=' + this.times.train.output + '&isArrivalTime=1&limit=1';
@@ -189,13 +190,25 @@ export class StartComponent implements OnInit {
             this.http.get(url).subscribe(
                 data => {
                     console.log(data);
-                    let from = data['connections'][0].from.departureTimestamp + 3600;
-                    let to = this.times.train.time / 1000;
+                    const from = data['connections'][0].from.departureTimestamp + 3600;
+                    const to = this.times.train.time / 1000;
                     this.times.train.wayDuration =  (to - from) / 60;
                     console.log('from ' + from + ' to ' + to + ' = ' + this.times.train.wayDuration);
                     this.calculate();
                 }
             );
         }
+    }
+
+    calculateCar() {
+        const url = 'http://router.project-osrm.org/route/v1/driving/8.6918153,47.253174;8.8245459,47.2269198';
+        this.http.get(url).subscribe(
+            data => {
+                console.log(data);
+                const duration = data['routes'][0]['duration'];
+                this.times.car.wayDuration = (duration / 60).toFixed();
+                this.calculate();
+            }
+        )
     }
 }
