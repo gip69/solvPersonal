@@ -72,8 +72,9 @@ export class StartComponent implements OnInit {
     }
 
     init() {
+        const d = new Date();
         this.times = {
-            date: '',
+            date: d.toISOString().substr(0, 10),
             name: 'name',
             homeCar: {time: 0, output: '', location: ''},
             homeTrain: {time: 0, output: ''},
@@ -84,19 +85,20 @@ export class StartComponent implements OnInit {
             prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
             start: {time: 0, wayDuration: 4, output: '8:00'}
         };
-        localStorage.setItem('times', JSON.stringify(this.times));
     }
 
     clear() {
         console.log('clear');
         this.init();
+        localStorage.setItem('times', JSON.stringify(this.times));
         this.calculate();
     }
 
     calculate() {
         console.log('calculate'); // 2011-04-11T10:20:30
         // Starttime
-        this.times.start.time = this.getDate(this.times.date + ' ' + this.times.start.output).getTime();
+        const d = this.getDate(this.times.date + ' ' + this.times.start.output);
+        this.times.start.time = d.getTime();
         // Prestart
         this.times.prestart.time = this.times.start.time - this.inMilliseconds(this.times.start.wayDuration);
         this.times.prestart.output = this.short(this.getDate(this.times.prestart.time).toLocaleTimeString());
@@ -201,6 +203,7 @@ export class StartComponent implements OnInit {
     }
 
     calculateCar() {
+        // TODO get koordinate of places
         const url = 'http://router.project-osrm.org/route/v1/driving/8.6918153,47.253174;8.8245459,47.2269198';
         this.http.get(url).subscribe(
             data => {
@@ -209,6 +212,6 @@ export class StartComponent implements OnInit {
                 this.times.car.wayDuration = (duration / 60).toFixed();
                 this.calculate();
             }
-        )
+        );
     }
 }

@@ -13,7 +13,7 @@
         <input matInput placeholder="von" [(ngModel)]="times.homeCar.location" type="text" (ngModelChange)="calculate()">
       </mat-form-field>
       <mat-form-field class="place">
-        <input matInput placeholder="nach" [(ngModel)]="times.wkz.location" type="text" (ngModelChange)="calculate()">
+        <input matInput placeholder="nach" [(ngModel)]="times.wkz.location" type="text" (ngModelChange)="calculate()" value="11.12.2018">
       </mat-form-field>
       <button mat-button (click)="calculateOev()" color="primary">
         Weg berechnen
