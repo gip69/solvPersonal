@@ -1,5 +1,5 @@
 {
-  "name": "solvPersonal",
+  "name": "SOLVPersonal",
   "version": "0.0.1",
   "main": "main.js",
   "scripts": {
@@ -9,8 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "electron .",
-    "electron-build": "ng build --prod && electron ."
+    "electron": "ng build && electron .",
+    "electron build": "ng build --base-href ./ && electron .",
+    "electron-build": "ng build --prod && electron .",
+    "build-app": "electron-packager . --app-copyright Giannini --overwrite"
   },
   "private": true,
   "dependencies": {
@@ -43,7 +45,9 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^4.3.0",
-    "electron": "^3.0.5",
+    "electron": "^3.0.11",
+    "electron-packager": "^13.0.0",
+    "icon-convert": "^1.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",
