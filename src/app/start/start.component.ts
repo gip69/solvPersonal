@@ -94,54 +94,6 @@ export class StartComponent implements OnInit {
         this.calculate();
     }
 
-    calculateTimes() {
-        console.log('calculate'); // 2011-04-11T10:20:30
-        // Starttime
-        const d = this.getDate(this.times.date + ' ' + this.times.start.output);
-        this.times.start.time = d.getTime();
-        // Prestart
-        this.times.prestart.time = this.times.start.time - this.inMilliseconds(this.times.start.wayDuration);
-        this.times.prestart.output = this.short(this.getDate(this.times.prestart.time).toLocaleTimeString());
-        // Depot
-        this.times.depot.time = this.times.prestart.time - this.inMilliseconds(this.times.prestart.duration) - this.inMilliseconds(this.times.prestart.wayDuration);
-        this.times.depot.output = this.short(this.getDate(this.times.depot.time).toLocaleTimeString());
-        // WKZ
-        this.times.wkz.time = this.times.depot.time - this.inMilliseconds(this.times.depot.duration) - this.inMilliseconds(this.times.depot.wayDuration);
-        this.times.wkz.output = this.short(this.getDate(this.times.wkz.time).toLocaleTimeString());
-        // Destination
-        this.times.car.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayCarDuration);
-        this.times.car.output = this.short(this.getDate(this.times.car.time).toLocaleTimeString());
-        this.times.train.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayTrainDuration);
-        this.times.train.output = this.short(this.getDate(this.times.train.time).toLocaleTimeString());
-        // Home
-        this.times.homeCar.time = this.times.car.time - this.inMilliseconds(this.times.car.duration) - this.inMilliseconds(this.times.car.wayDuration);
-        this.times.homeCar.output = this.short(this.getDate(this.times.homeCar.time).toLocaleTimeString());
-        this.times.homeTrain.time = this.times.train.time - this.inMilliseconds(this.times.train.duration) - this.inMilliseconds(this.times.train.wayDuration);
-        this.times.homeTrain.output = this.short(this.getDate(this.times.homeTrain.time).toLocaleTimeString());
-
-        this.newEvent.start = new Date(this.times.date + ' ' + this.times.homeTrain.output);
-        this.newEvent.end = new Date(this.times.date + ' ' + this.times.start.output);
-        this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
-            this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
-        );
-        if (this.times.homeCar.time < this.times.homeTrain) {
-            this.colorTimeTrain = {
-                'fill': '#00c500'
-            };
-            this.colorTimeCar = {
-                'fill': 'red'
-            };
-        } else {
-            this.colorTimeTrain = {
-                'fill': 'red'
-            };
-            this.colorTimeCar = {
-                'fill': '#00c500'
-            };
-        }
-        localStorage.setItem('times', JSON.stringify(this.times));
-    }
-
     save() {
         console.log('save OL');
     }
@@ -205,6 +157,52 @@ export class StartComponent implements OnInit {
             this.calculateTimes();
         }
     }
+
+    calculateTimes() {
+        console.log('calculate'); // 2011-04-11T10:20:30
+        // Starttime
+        const d = this.getDate(this.times.date + ' ' + this.times.start.output);
+        this.times.start.time = d.getTime();
+        // Prestart
+        this.times.prestart.time = this.times.start.time - this.inMilliseconds(this.times.start.wayDuration);
+        this.times.prestart.output = this.short(this.getDate(this.times.prestart.time).toLocaleTimeString());
+        // Depot
+        this.times.depot.time = this.times.prestart.time - this.inMilliseconds(this.times.prestart.duration) - this.inMilliseconds(this.times.prestart.wayDuration);
+        this.times.depot.output = this.short(this.getDate(this.times.depot.time).toLocaleTimeString());
+        // WKZ
+        this.times.wkz.time = this.times.depot.time - this.inMilliseconds(this.times.depot.duration) - this.inMilliseconds(this.times.depot.wayDuration);
+        this.times.wkz.output = this.short(this.getDate(this.times.wkz.time).toLocaleTimeString());
+        // Destination
+        this.times.car.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayCarDuration);
+        this.times.car.output = this.short(this.getDate(this.times.car.time).toLocaleTimeString());
+        this.times.train.time = this.times.wkz.time - this.inMilliseconds(this.times.wkz.duration) - this.inMilliseconds(this.times.wkz.wayTrainDuration);
+        this.times.train.output = this.short(this.getDate(this.times.train.time).toLocaleTimeString());
+        // Home
+        this.times.homeCar.time = this.times.car.time - this.inMilliseconds(this.times.car.duration) - this.inMilliseconds(this.times.car.wayDuration);
+        this.times.homeCar.output = this.short(this.getDate(this.times.homeCar.time).toLocaleTimeString());
+        this.times.homeTrain.time = this.times.train.time - this.inMilliseconds(this.times.train.duration) - this.inMilliseconds(this.times.train.wayDuration);
+        this.times.homeTrain.output = this.short(this.getDate(this.times.homeTrain.time).toLocaleTimeString());
+        let wayBack = this.times.train.wayDuration;
+        let firstTime = this.times.homeTrain.output;
+        if (this.times.homeCar.time < this.times.homeTrain) {
+            this.colorTimeTrain = { 'fill': '#00c500' };
+            this.colorTimeCar = { 'fill': 'red' };
+        } else {
+            this.colorTimeTrain = { 'fill': 'red' };
+            this.colorTimeCar = { 'fill': '#00c500' };
+            wayBack = this.times.car.wayDuration;
+            firstTime = this.times.homeCar.output;
+        }
+
+        this.newEvent.start = new Date(this.times.date + ' ' + firstTime);
+        const endTime = this.times.start.time + 7200000 + wayBack * 60 * 1000;
+        this.newEvent.end = new Date(this.times.date + ' ' + this.short(this.getDate(endTime).toLocaleTimeString()));
+        this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
+            this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
+        );
+        localStorage.setItem('times', JSON.stringify(this.times));
+    }
+
     calculateWay() {
         this.calculateOev();
     }
