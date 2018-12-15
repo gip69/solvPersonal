@@ -20,7 +20,12 @@ export class StartComponent implements OnInit {
     public newEvent: ICalendarEvent;
     private events;
     selectedValue;
-
+    colorTimeTrain = {
+        'fill': 'black'
+    };
+    colorTimeCar = {
+        'fill': 'black'
+    };
     calendars = [
         {viewvalue: 'Google', value: this._addToCalendarService.calendarType.google},
         {viewvalue: 'Yahoo', value: this._addToCalendarService.calendarType.yahoo},
@@ -63,6 +68,7 @@ export class StartComponent implements OnInit {
 
     ngOnInit() {
         this.times = JSON.parse(localStorage.getItem('times'));
+        this.calculate();
     }
 
     init() {
@@ -118,6 +124,21 @@ export class StartComponent implements OnInit {
         this.appleCalendarEventUrl = this._sanitizer.bypassSecurityTrustUrl(
             this._addToCalendarService.getHrefFor(this._addToCalendarService.calendarType.iCalendar, this.newEvent)
         );
+        if (this.times.homeCar.time < this.times.homeTrain) {
+            this.colorTimeTrain = {
+                'fill': '#00c500'
+            };
+            this.colorTimeCar = {
+                'fill': 'red'
+            };
+        } else {
+            this.colorTimeTrain = {
+                'fill': 'red'
+            };
+            this.colorTimeCar = {
+                'fill': '#00c500'
+            };
+        }
         localStorage.setItem('times', JSON.stringify(this.times));
     }
 

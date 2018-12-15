@@ -15,7 +15,7 @@
       <mat-form-field class="place">
         <input matInput placeholder="nach" [(ngModel)]="times.wkz.location" type="text" (blur)="calculate()" value="11.12.2018">
       </mat-form-field>
-      <!--button mat-button (click)="calculateWay()" color="primary">
+        <!--button mat-button (click)="calculateWay()" color="primary">
         Weg berechnen
       </button-->
       <button mat-button color="primary">
@@ -493,22 +493,22 @@
          id="tspan2482">{{times.car.output}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill:#00c500;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill-opacity:1;stroke:none;stroke-width:0.299128"
        x="14.795116"
        y="263.83865"
-       id="text6459"><tspan
+       id="text6459" [ngStyle]="colorTimeCar"><tspan
          sodipodi:role="line"
          id="tspan6457"
          x="14.795116"
          y="263.83865"
-         style="fill:#00c500;fill-opacity:1;stroke-width:0.299128">{{times.homeCar.output}}</tspan></text>
+         style="fill-opacity:1;stroke-width:0.299128">{{times.homeCar.output}}</tspan></text>
     <text
-       id="text6463"
+       id="textHomeTrain"
        y="293.40167"
        x="14.795116"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill:#00c500;fill-opacity:1;stroke:none;stroke-width:0.299128"
-       xml:space="preserve"><tspan
-         style="fill:#00c500;fill-opacity:1;stroke-width:0.299128"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.58372259px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;opacity:1;fill-opacity:1;stroke:none;stroke-width:0.299128"
+       xml:space="preserve" [ngStyle]="colorTimeTrain"><tspan
+         style="fill-opacity:1;stroke-width:0.299128"
          y="293.40167"
          x="14.795116"
          id="tspan6461"
