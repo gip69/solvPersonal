@@ -191,10 +191,11 @@ export class StartComponent implements OnInit {
             console.log('Url: ' + url);
             this.http.get(url).subscribe(
                 data => {
+                    console.log('Train:');
                     console.log(data);
                     const from = data['connections'][0].from.departureTimestamp + 3600;
                     const to = this.times.train.time / 1000;
-                    this.times.train.wayDuration =  (to - from) / 60;
+                    this.times.train.wayDuration = (to - from) / 60;
                     console.log('from ' + from + ' to ' + to + ' = ' + this.times.train.wayDuration);
                     this.calculate();
                 }
@@ -203,15 +204,32 @@ export class StartComponent implements OnInit {
     }
 
     calculateCar() {
-        // TODO get koordinate of places
-        const url = 'http://router.project-osrm.org/route/v1/driving/8.6918153,47.253174;8.8245459,47.2269198';
-        this.http.get(url).subscribe(
-            data => {
-                console.log(data);
-                const duration = data['routes'][0]['duration'];
-                this.times.car.wayDuration = (duration / 60).toFixed();
-                this.calculate();
-            }
-        );
+        if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
+            const urlLocationHome = 'http://nominatim.openstreetmap.org/search?q=' + this.times.homeCar.location + '&format=json';
+            const urlLocationWKZ = 'http://nominatim.openstreetmap.org/search?q=' + this.times.wkz.location + '&format=json';
+            this.http.get(urlLocationHome).subscribe(
+                home => {
+                    console.log(this.times.homeCar.location + ' ' + home[0]['lon'] + ':' + home[0]['lat']);
+                    this.http.get(urlLocationWKZ).subscribe(
+                        target => {
+                            console.log(this.times.wkz.location + ' ' + target[0]['lon'] + ':' + target[0]['lat']);
+                            const url = 'http://router.project-osrm.org/route/v1/driving/' + home[0]['lon'] + ',' + home[0]['lat'] + ';'
+                                + target[0]['lon'] + ',' + target[0]['lat'];
+                            console.log('Route Url: ' + url);
+                            this.http.get(url).subscribe(
+                                route => {
+                                    console.log('Car:');
+                                    console.log(route);
+                                    if (route['code'] === 'Ok') {
+                                        const duration = route['routes'][0]['duration'];
+                                        this.times.car.wayDuration = (duration / 60).toFixed();
+                                        this.calculate();
+                                    } else {
+                                        console.error('calculate car route error: ' + url);
+                                    }
+                                });
+                        });
+                });
+        }
     }
 }
