@@ -63,12 +63,6 @@ export class StartComponent implements OnInit {
 
     ngOnInit() {
         this.times = JSON.parse(localStorage.getItem('times'));
-        //this.clear();
-        /*let contentSolv = this._sanitizer.bypassSecurityTrustHtml(this.url);
-                console.log(contentSolv);*/
-        /*this.http.get(this.url).subscribe(
-            data => console.log('Data: ' + data)
-        );*/
     }
 
     init() {
@@ -83,7 +77,7 @@ export class StartComponent implements OnInit {
             wkz: {time: 0, duration: 20, wayCarDuration: 0, wayTrainDuration: 0, output: '', location: ''},
             depot: {time: 0, duration: 0, wayDuration: 0, output: ''},
             prestart: {time: 0, duration: 10, wayDuration: 0, output: ''},
-            start: {time: 0, wayDuration: 4, output: '8:00'}
+            start: {time: 0, wayDuration: 4, output: '08:00'}
         };
     }
 
@@ -94,7 +88,7 @@ export class StartComponent implements OnInit {
         this.calculate();
     }
 
-    calculate() {
+    calculateTimes() {
         console.log('calculate'); // 2011-04-11T10:20:30
         // Starttime
         const d = this.getDate(this.times.date + ' ' + this.times.start.output);
@@ -183,21 +177,35 @@ export class StartComponent implements OnInit {
         console.log('new ol: ' + this.selectedValue + ' oder ' + event.value);
     }
 
-    calculateOev() {
-        this.calculateCar();
+    calculate() {
         if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
+            this.calculateWay();
+        } else {
+            this.calculateTimes();
+        }
+    }
+    calculateWay() {
+        this.calculateOev();
+    }
+
+    calculateOev() {
+        if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
+            console.log('Train:');
             let url = this.urlOV + '?from=' + this.times.homeCar.location + '&to=' + this.times.wkz.location;
             url += '&date=' + this.times.date + '&time=' + this.times.train.output + '&isArrivalTime=1&limit=1';
-            console.log('Url: ' + url);
+            console.log('train url: ' + url);
             this.http.get(url).subscribe(
                 data => {
-                    console.log('Train:');
                     console.log(data);
-                    const from = data['connections'][0].from.departureTimestamp + 3600;
-                    const to = this.times.train.time / 1000;
-                    this.times.train.wayDuration = (to - from) / 60;
-                    console.log('from ' + from + ' to ' + to + ' = ' + this.times.train.wayDuration);
-                    this.calculate();
+                    if (data['connections'].length !== 0) {
+                        const from = data['connections'][0].from.departureTimestamp + 3600;
+                        const to = this.times.train.time / 1000;
+                        this.times.train.wayDuration = (to - from) / 60;
+                        console.log('duration: ' + this.times.train.wayDuration + '\'');
+                    } else {
+                        console.error('calculate train connection error: ' + url);
+                    }
+                    this.calculateCar();
                 }
             );
         }
@@ -205,30 +213,41 @@ export class StartComponent implements OnInit {
 
     calculateCar() {
         if (this.times.homeCar.location !== '' && this.times.wkz.location !== '') {
-            const urlLocationHome = 'http://nominatim.openstreetmap.org/search?q=' + this.times.homeCar.location + '&format=json';
+            console.log('Car:');
+                const urlLocationHome = 'http://nominatim.openstreetmap.org/search?q=' + this.times.homeCar.location + '&format=json';
             const urlLocationWKZ = 'http://nominatim.openstreetmap.org/search?q=' + this.times.wkz.location + '&format=json';
             this.http.get(urlLocationHome).subscribe(
                 home => {
+                    if (home['length'] !== 0) {
                     console.log(this.times.homeCar.location + ' ' + home[0]['lon'] + ':' + home[0]['lat']);
                     this.http.get(urlLocationWKZ).subscribe(
                         target => {
-                            console.log(this.times.wkz.location + ' ' + target[0]['lon'] + ':' + target[0]['lat']);
-                            const url = 'http://router.project-osrm.org/route/v1/driving/' + home[0]['lon'] + ',' + home[0]['lat'] + ';'
-                                + target[0]['lon'] + ',' + target[0]['lat'];
-                            console.log('Route Url: ' + url);
-                            this.http.get(url).subscribe(
-                                route => {
-                                    console.log('Car:');
-                                    console.log(route);
-                                    if (route['code'] === 'Ok') {
-                                        const duration = route['routes'][0]['duration'];
-                                        this.times.car.wayDuration = (duration / 60).toFixed();
-                                        this.calculate();
-                                    } else {
-                                        console.error('calculate car route error: ' + url);
-                                    }
-                                });
+                            if (target['length'] !== 0) {
+                                console.log(this.times.wkz.location + ' ' + target[0]['lon'] + ':' + target[0]['lat']);
+                                const url = 'http://router.project-osrm.org/route/v1/driving/' + home[0]['lon'] + ',' + home[0]['lat'] + ';'
+                                    + target[0]['lon'] + ',' + target[0]['lat'];
+                                console.log('route Url: ' + url);
+                                this.http.get(url).subscribe(
+                                    route => {
+                                        console.log(route);
+                                        if (route['code'] === 'Ok') {
+                                            const duration = route['routes'][0]['duration'];
+                                            this.times.car.wayDuration = (duration / 60).toFixed();
+                                            console.log('duration: ' + this.times.car.wayDuration + '\'');
+                                        } else {
+                                            console.error('calculate car route error: ' + url);
+                                        }
+                                        this.calculateTimes();
+                                    });
+                            } else {
+                                console.error('read coordinate of wkz location error: ' + urlLocationWKZ);
+                                this.calculateTimes();
+                            }
                         });
+                    } else {
+                        console.error('read coordinate of home location error: ' + urlLocationHome);
+                        this.calculateTimes();
+                    }
                 });
         }
     }
