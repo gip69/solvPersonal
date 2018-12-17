@@ -21,6 +21,9 @@ import {EventMessageService} from './shared/event.message.service';
 import {FormsModule} from '@angular/forms';
 import { StartComponent } from './start/start.component';
 import {NgAddToCalendarModule} from '@trademe/ng-add-to-calendar';
+import {PushNotificationsService} from './tick/notification.service';
+import {TickDialogComponent} from './tick/tick-dialog/tick-dialog.component';
+import {TickTableComponent} from './tick/tick-table/tick-table.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -48,6 +51,8 @@ export class SafeHtmlPipe implements PipeTransform {
         RunComponent,
         RunDialogComponent,
         TickComponent,
+        TickDialogComponent,
+        TickTableComponent,
         RunDetailsComponent,
         SolvDbComponent,
         StartComponent,
@@ -66,9 +71,9 @@ export class SafeHtmlPipe implements PipeTransform {
         HttpClientModule,
         NgAddToCalendarModule
     ],
-    providers: [SolvService, SolvDbService, PersonComponent, EventMessageService],
+    providers: [SolvService, SolvDbService, PersonComponent, EventMessageService, PushNotificationsService],
     bootstrap: [AppComponent],
-    entryComponents: [RunDialogComponent],
+    entryComponents: [RunDialogComponent, TickDialogComponent],
     schemas: [
         NO_ERRORS_SCHEMA
     ]

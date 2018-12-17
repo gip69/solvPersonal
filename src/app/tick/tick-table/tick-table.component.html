@@ -1,0 +1,31 @@
+<mat-table [dataSource]="ticks">
+    <ng-container matColumnDef="place">
+      <mat-header-cell *matHeaderCellDef>Ort</mat-header-cell>
+      <mat-cell *matCellDef='let tick'>{{tick.place}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
+      <mat-cell *matCellDef='let tick'>{{tick.date}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bodyLocation">
+      <mat-header-cell *matHeaderCellDef>Körperstelle</mat-header-cell>
+      <mat-cell *matCellDef='let tick'>{{tick.bodyLocation}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="reminder">
+      <mat-header-cell *matHeaderCellDef>Erinnerung</mat-header-cell>
+      <mat-cell *matCellDef='let tick'>{{tick.reminder}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let tick; columns: displayedColumns;"></mat-row>
+</mat-table>
+<!--mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[10, 15, 50]">
+</mat-paginator-->
+
+  <!--mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[10, 15, 50]">
+  </mat-paginator-->
+
+

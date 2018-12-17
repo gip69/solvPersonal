@@ -1,0 +1,38 @@
+<div class="example-container">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput class="place" placeholder="Ort" [(ngModel)]="tick.place">
+    </mat-form-field>
+    <!--Input Feld um zu speichern an welchem Ort man gebisen wurde-->
+    <mat-form-field>
+      <input matInput class="bodyLocation" placeholder="Körperteil" [(ngModel)]="tick.bodyLocation">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput class="date" [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="tick.date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <!--wann wurde man gebissen? mit Datepicker-->
+    </mat-form-field>
+
+      <mat-slide-toggle class="reminder" [(ngModel)]="tick.reminder">Erinnerung</mat-slide-toggle>
+
+
+    <mat-form-field>
+      <mat-select *ngIf="true" placeholder="Kalender auswählen" #clientValue [(ngModel)]="selectedValue">
+        <mat-option  *ngFor="let client of clients" [value]="client.value">
+          {{client.viewvalue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+</div>
+<!--Will man eine Erinnerung-->
+
+<div mat-dialog-actions>
+  <button class='mat-raised-button' (click)="close()">abbrechen</button>
+  <!--um Dialog zu schliessen-->
+  <button class="mat-raised-button mat-primary" (click)="save()">sichern</button>
+  <!--um eingegebene Daten zu sichern-->
+</div>

@@ -12,12 +12,23 @@ import {
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule, MatSortModule, MatSelectModule, MatGridListModule
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatSelectModule,
+    MatGridListModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatTabsModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
-    imports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
+    imports: [MatButtonModule,
+        MatCheckboxModule,
         MatButtonModule,
         MatSidenavModule,
         MatIconModule,
@@ -27,10 +38,22 @@ import {NgModule} from '@angular/core';
         MatChipsModule,
         MatCardModule,
         MatProgressBarModule,
-        MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-        MatSortModule, MatTableModule, MatSelectModule, MatGridListModule
+        MatInputModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatSortModule,
+        MatTableModule,
+        MatSelectModule,
+        MatGridListModule,
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatTabsModule,
+        BrowserAnimationsModule
     ],
-    exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule,
+    exports: [MatButtonModule,
+        MatCheckboxModule,
         MatButtonModule,
         MatSidenavModule,
         MatIconModule,
@@ -40,8 +63,23 @@ import {NgModule} from '@angular/core';
         MatChipsModule,
         MatCardModule,
         MatProgressBarModule,
-        MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-        MatSortModule, MatTableModule, MatSelectModule, MatGridListModule
+        MatInputModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatSortModule,
+        MatTableModule,
+        MatSelectModule,
+        MatGridListModule,
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatTabsModule,
+        BrowserAnimationsModule
+    ],
+    providers: [
+        {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
     ],
 })
-export class CustomMaterialModule { }
+export class CustomMaterialModule {
+}

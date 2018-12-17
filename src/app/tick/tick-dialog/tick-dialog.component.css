@@ -1,0 +1,23 @@
+.date {
+  padding-top: 1em;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container>* {
+  width: 100%;
+}
+
+
+
+.reminder {
+  margin: 10px, 5px;
+}
+
+
+.mat-raised-button {
+  display: block;
+}
