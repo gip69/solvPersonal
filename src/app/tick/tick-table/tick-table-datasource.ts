@@ -2,11 +2,11 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { TickDialogComponent } from '../tick-dialog/tick-dialog.component'
+import { TickDialogComponent } from '../tick-dialog/tick-dialog.component';
 
 
 export interface Tick {
-  id: number // nummer eindeutig vergeben//
+  id: number; // nummer eindeutig vergeben//
   place: string;
   date: Date;
   reminder: boolean;

@@ -1,6 +1,7 @@
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
-import {NgModule, NO_ERRORS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
+import {LOCALE_ID, NgModule, NO_ERRORS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import localeDe from '@angular/common/locales/de';
 
 import {AppComponent} from './app.component';
 import {CustomMaterialModule} from './customMaterial.module';
@@ -24,6 +25,9 @@ import {NgAddToCalendarModule} from '@trademe/ng-add-to-calendar';
 import {PushNotificationsService} from './tick/notification.service';
 import {TickDialogComponent} from './tick/tick-dialog/tick-dialog.component';
 import {TickTableComponent} from './tick/tick-table/tick-table.component';
+import {registerLocaleData} from '@angular/common';
+
+registerLocaleData(localeDe, 'de');
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'person', pathMatch: 'full'},
@@ -71,7 +75,7 @@ export class SafeHtmlPipe implements PipeTransform {
         HttpClientModule,
         NgAddToCalendarModule
     ],
-    providers: [SolvService, SolvDbService, PersonComponent, EventMessageService, PushNotificationsService],
+    providers: [SolvService, SolvDbService, PersonComponent, EventMessageService, PushNotificationsService, { provide: LOCALE_ID, useValue: 'de-DE' }],
     bootstrap: [AppComponent],
     entryComponents: [RunDialogComponent, TickDialogComponent],
     schemas: [
