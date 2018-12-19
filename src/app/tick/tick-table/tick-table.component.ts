@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Output, ChangeDetectionStrategy, EventEmitter} from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { TickTableDataSource } from './tick-table-datasource';
 import { Tick } from '../tick.model';
@@ -12,8 +12,9 @@ import { Tick } from '../tick.model';
 export class TickTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: TickTableDataSource;
   @Input() ticks: Tick[];
+  @Output() selectedTick = new EventEmitter<Tick>();
+  dataSource: TickTableDataSource;
   displayedColumns = ['place', 'date', 'bodyLocation', 'reminder'];
 
   constructor() {
@@ -21,5 +22,9 @@ export class TickTableComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new TickTableDataSource(this.paginator, this.sort);
+  }
+
+    deleteTick() {
+        console.log('Tick ');
   }
 }
