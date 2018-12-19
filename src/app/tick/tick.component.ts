@@ -2,7 +2,6 @@ import { Component, OnInit, } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TickDialogComponent } from './tick-dialog/tick-dialog.component';
 import { Tick } from './tick.model';
-import { ViewChild, ElementRef } from '@angular/core';
 import { PushNotificationsService } from './notification.service';
 import * as moment from 'moment';
 import 'hammerjs';
@@ -15,11 +14,9 @@ import 'moment/locale/de';
 })
 export class TickComponent implements OnInit {
   private ticks: Tick[] = [];
-  // private svgPath = 'assets/manndef.svg';
 
   constructor(private matDialog: MatDialog, private notificationService: PushNotificationsService, ) {
     this.notificationService.requestPermission();
-    // (<any>window).newTick = this.newTick.bind(this);
   }
 
   ngOnInit() {
@@ -52,17 +49,13 @@ export class TickComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
           if (result !== undefined) {
               console.log('tick: ' + JSON.stringify(result));
-              // this.ticks.push(result);
               this.ticks = [...this.ticks, result];
               localStorage.setItem('ticks', JSON.stringify(this.ticks));
-              // TODO aktualisieren?
           } else {
               console.log('CLOSE');
           }
       });
   }
-
-
 
   pushNotification() {
     console.log('PushNotification');
@@ -556,7 +549,4 @@ mySvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     </path>
   </g>
 </svg>`;
-
-
-
 }
