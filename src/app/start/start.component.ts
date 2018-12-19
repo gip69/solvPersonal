@@ -184,7 +184,7 @@ export class StartComponent implements OnInit {
         this.times.homeTrain.output = this.short(this.getDate(this.times.homeTrain.time).toLocaleTimeString());
         let wayBack = this.times.train.wayDuration;
         let firstTime = this.times.homeTrain.output;
-        if (this.times.homeCar.time < this.times.homeTrain) {
+        if (this.times.homeCar.time < this.times.homeTrain.time) {
             this.colorTimeTrain = { 'fill': '#00c500' };
             this.colorTimeCar = { 'fill': 'red' };
         } else {
