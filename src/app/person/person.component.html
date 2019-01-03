@@ -1,15 +1,15 @@
 <div class="content">
   <mat-toolbar>
-    <mat-form-field>
+    <mat-form-field class="input item">
       <input matInput placeholder="Enter Name" [(ngModel)]="name">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="input item">
       <input matInput placeholder="Enter Vorname" [(ngModel)]="prename">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field  class="input item">
       <input matInput placeholder="Enter Club" [(ngModel)]="club">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field  class="input item">
       <input matInput placeholder="Enter Jahrgang" [(ngModel)]="year">
     </mat-form-field>
     <button mat-icon-button (click)="addPerson()">
@@ -20,7 +20,7 @@
     <mat-list-item *ngFor="let person of persons" class="personList">
       <span class="item">{{ person.name }}</span>
       <span class="item">{{ person.prename }}</span>
-      <span class="club">{{ person.club }}</span>
+      <span class="item">{{ person.club }}</span>
       <span class="item">{{ person.year }}</span>
     </mat-list-item>
   </mat-nav-list>

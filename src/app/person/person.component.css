@@ -3,10 +3,17 @@
 }
 
 .item {
-     width: 6em;
+     width: 10.1em;
  }
 .club {
+    width: 12.1em;
+}
+
+.input.item {
     width: 8em;
+}
+.input.club {
+    width: 10em;
 }
 
 .personList span {
