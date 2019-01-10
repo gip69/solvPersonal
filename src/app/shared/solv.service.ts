@@ -20,15 +20,29 @@ export class SolvService {
     private eventsRunner;
     private progress = 0;
     private dataId = 0;
+    private eventsYear = '';
 
     constructor(private http: HttpClient, protected localStorage: LocalStorage) {
-        this.http.get(this.host + '/api/events?year=2018').subscribe(res => {
+        this.localStorage.getItem('activeYear').subscribe((activeYear: string) => {
+            const d = new Date();
+            let year = d.getFullYear().toString();
+            if (activeYear !== null && activeYear !== undefined && activeYear !== '') {
+                year = activeYear;
+            }
+            this.readEventsOfYear(year);
+        }, () => {
+        });
+    }
+
+    readEventsOfYear(year: string) {
+        console.log('read events from solve for year ' + year);
+        this.http.get(this.host + '/api/events?year=' + year).subscribe(res => {
+            this.eventsYear = year;
             this.events = res;
             console.log('SolvService initialized');
             this.initialized.emit(true);
         });
     }
-
     checkRunner(id: number, fullname: string, runners) {
         for (const runner in runners) {
             if (runners[runner]['fullName'] === fullname) {
@@ -114,5 +128,16 @@ export class SolvService {
                 });
         }
         return event;
+    }
+
+    updateEvents(year: string) {
+        if (year !== undefined && year !== '') {
+            if (year !== this.eventsYear) {
+                this.http.get(this.host + '/api/events?year=' + year).subscribe(res => {
+                    this.eventsYear = year;
+                    this.events = res;
+                });
+            }
+        }
     }
 }

@@ -27,8 +27,10 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     subscriptionMyEvent: Subscription;
     subscriptionProgress: Subscription;
 
-    constructor(protected localStorage: LocalStorage, private eventMessage: EventMessageService, private dialog: MatDialog, private solv: SolvService) {
-    }
+    constructor(protected localStorage: LocalStorage,
+                private eventMessage: EventMessageService,
+                private dialog: MatDialog,
+                private solv: SolvService) {}
 
     ngOnInit() {
         if (this.initialized) {
@@ -37,6 +39,9 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.eventMessage.rcvMessageRun.subscribe(message => {
             if (message.command === 'CHANGE_PERSON') {
                 this.readPersonalEvents();
+            } else if (message.command === 'CHANGE_YEAR') {
+                console.log('receive change year ' + message.value);
+                this.readMyEvents();
             }
         });
     }
@@ -102,7 +107,12 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     readMyEvents() {
-        this.solv.readMyEvents('Pascal Giannini');
+        this.getEvents();
+        this.localStorage.getItem ('activeRunner').subscribe((person: string) => {
+            if (person !== undefined && person !== '') {
+                this.solv.readMyEvents(person);
+            }
+        });
     }
 
     showInfo(event) {

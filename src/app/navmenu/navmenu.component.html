@@ -6,6 +6,13 @@
     <span>SOLV Personal</span>
     <span class="example-fill-remaining-space"></span>
     <mat-form-field>
+      <mat-select [(value)]="selYear">
+        <mat-option (onSelectionChange)="changeYear($event)" *ngFor="let solvYear of years" [value]="solvYear">
+          {{solvYear}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
       <mat-select [(value)]="selected">
         <mat-option (onSelectionChange)="change($event)" *ngFor="let person of persons" [value]="person">
           {{person}}

@@ -56,8 +56,13 @@ mat-grid-tile {
 
 .btn {
     text-decoration: none;
+    color: white;
 }
 
 .place {
     margin-left: 2em;
+}
+
+button {
+    margin-left: 1em;
 }
