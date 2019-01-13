@@ -1,92 +1,92 @@
-import { Component, OnInit, } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { TickDialogComponent } from './tick-dialog/tick-dialog.component';
-import { Tick } from './tick.model';
-import { PushNotificationsService } from './notification.service';
+import {Component, OnInit,} from '@angular/core';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {TickDialogComponent} from './tick-dialog/tick-dialog.component';
+import {Tick} from './tick.model';
+import {PushNotificationsService} from './notification.service';
 import * as moment from 'moment';
 import 'hammerjs';
 import 'moment/locale/de';
 
 @Component({
-  selector: 'app-tick',
-  templateUrl: './tick.component.html',
-  styleUrls: ['./tick.component.css']
+    selector: 'app-tick',
+    templateUrl: './tick.component.html',
+    styleUrls: ['./tick.component.css']
 })
 export class TickComponent implements OnInit {
-  private ticks: Tick[] = [];
+    ticks: Tick[] = [];
 
-  constructor(private matDialog: MatDialog, private notificationService: PushNotificationsService, ) {
-    this.notificationService.requestPermission();
-  }
-
-  ngOnInit() {
-    this.ticks = JSON.parse(localStorage.getItem('ticks'));
-    if (this.ticks == null) {
-      this.ticks = [];
+    constructor(private matDialog: MatDialog, private notificationService: PushNotificationsService,) {
+        this.notificationService.requestPermission();
     }
-    this.checkTicks();
 
-  }
-
-  setTick(e) {
-      console.log('init myFunction: ' + e.target.id);
-      if (e.target.closest('path')) {
-          this.newTick(e.target.id);
-      }
-  }
-
-  newTick(bodyPart: string) {
-      console.log('newTick(' + bodyPart + ')');
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '250px';
-      dialogConfig.data = {
-          bodyLocation: bodyPart
-      };
-
-      const dialogRef = this.matDialog.open(TickDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(result => {
-          if (result !== undefined) {
-              console.log('tick: ' + JSON.stringify(result));
-              this.ticks = [...this.ticks, result];
-              localStorage.setItem('ticks', JSON.stringify(this.ticks));
-          } else {
-              console.log('CLOSE');
-          }
-      });
-  }
-
-  pushNotification() {
-    console.log('PushNotification');
-    const data: Array<any> = [];
-    data.push({
-      'title': 'Erinnerung',
-      'alertContent': 'Bitte kontrollieren sie ihre Zecken!'
-    });
-    this.notificationService.generateNotification('Zeckenkontrolle', 'Bitte kontrolliere deine Zecken!');
-
-  }
-
-  checkTicks() {
-    const checkDate = moment().subtract(3, 'week');
-    this.ticks.forEach(function(tick) {
-      if (tick.reminder) {
-        if (moment(tick.date) > checkDate) {
-          const date = moment().format('DD.MM.YYYY');
-          if (tick.reminded !== date) {
-            this.pushNotification();
-            tick.reminded = moment().format('DD.MM.YYYY');
-          }
+    ngOnInit() {
+        this.ticks = JSON.parse(localStorage.getItem('ticks'));
+        if (this.ticks == null) {
+            this.ticks = [];
         }
-      }
-    }, this);
-    localStorage.setItem('ticks', JSON.stringify(this.ticks));
+        this.checkTicks();
 
-  }
+    }
+
+    setTick(e) {
+        console.log('init myFunction: ' + e.target.id);
+        if (e.target.closest('path')) {
+            this.newTick(e.target.id);
+        }
+    }
+
+    newTick(bodyPart: string) {
+        console.log('newTick(' + bodyPart + ')');
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = '250px';
+        dialogConfig.data = {
+            bodyLocation: bodyPart
+        };
+
+        const dialogRef = this.matDialog.open(TickDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined) {
+                console.log('tick: ' + JSON.stringify(result));
+                this.ticks = [...this.ticks, result];
+                localStorage.setItem('ticks', JSON.stringify(this.ticks));
+            } else {
+                console.log('CLOSE');
+            }
+        });
+    }
+
+    pushNotification() {
+        console.log('PushNotification');
+        const data: Array<any> = [];
+        data.push({
+            'title': 'Erinnerung',
+            'alertContent': 'Bitte kontrollieren sie ihre Zecken!'
+        });
+        this.notificationService.generateNotification('Zeckenkontrolle', 'Bitte kontrolliere deine Zecken!');
+
+    }
+
+    checkTicks() {
+        const checkDate = moment().subtract(3, 'week');
+        this.ticks.forEach(function (tick) {
+            if (tick.reminder) {
+                if (moment(tick.date) > checkDate) {
+                    const date = moment().format('DD.MM.YYYY');
+                    if (tick.reminded !== date) {
+                        this.pushNotification();
+                        tick.reminded = moment().format('DD.MM.YYYY');
+                    }
+                }
+            }
+        }, this);
+        localStorage.setItem('ticks', JSON.stringify(this.ticks));
+
+    }
 
 
-mySvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    mySvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"

@@ -1,5 +1,12 @@
 <div class="content">
-  <button mat-raised-button color="primary" (click)="readMyEvents()">Reload</button>
+  <div>
+    <mat-form-field appearance="outline" class="runItem">
+      <mat-label>Anzahl Läufe</mat-label>
+      <input matInput placeholder="Placeholder" disabled [value]="countEvents">
+      <mat-icon matSuffix>directions_run</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="readPersonalEvents()">Reload</button>
+  </div>
   <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
   <mat-table [dataSource]="events">
     <ng-container matColumnDef="number">

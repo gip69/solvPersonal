@@ -17,9 +17,11 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     events: OlEvent[] = [];
     eventsAll: OlEvent[] = [];
     eventsRunner: EventIdRunner[];
+    countEvents: number = 0;
     progress = 0;
     private initialized = false;
     private dataId: number = 0;
+    private updateRunning = false;
     columnsToDisplay: string[] = ['number', 'name', 'date', 'map', 'club', 'link'];
 
     // @ViewChild(SolvService) subject: SolvService;
@@ -41,7 +43,7 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                 this.readPersonalEvents();
             } else if (message.command === 'CHANGE_YEAR') {
                 console.log('receive change year ' + message.value);
-                this.readMyEvents();
+                this.readPersonalEvents();
             }
         });
     }
@@ -52,7 +54,6 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                 if (!this.initialized) {
                     this.initialized = true;
                     console.log('received initialized = ' + data);
-                    this.getEvents();
                     this.readPersonalEvents();
                 }
             });
@@ -69,9 +70,13 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                             if (this.eventsAll.find(x => x.id === event.eventId) !== undefined) {
                                 this.events.push(this.eventsAll.find(x => x.id === event.eventId));
                                 this.eventsRunner.push(event);
+                                this.countEvents = this.eventsRunner.length;
+
                                 // TODO read Result of event an runner with event.id
                             }
                         }, this);
+                        console.log('Count events run: ' + this.countEvents);
+                        this.updateRunning = false;
                     }
                 }
             });
@@ -87,12 +92,17 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     readPersonalEvents() {
-        this.localStorage.getItem ('activeRunner').subscribe((person: string) => {
-            if (person !== undefined && person !== '') {
-                this.solv.resetMyEvents(person);
-                this.solv.readMyEvents(person);
-            }
-        });
+        if (!this.updateRunning) {
+            this.updateRunning = true;
+            this.countEvents = 0;
+            this.getEvents();
+            this.localStorage.getItem('activeRunner').subscribe((person: string) => {
+                if (person !== undefined && person !== '') {
+                    this.solv.resetMyEvents(person);
+                    this.solv.readMyEvents(person);
+                }
+            });
+        }
     }
 
     getEvents() {
@@ -104,15 +114,6 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
             console.error('RunComponent.getEvents: events is not defined!');
         }
         // console.log('Events: ' + JSON.stringify(this.events));
-    }
-
-    readMyEvents() {
-        this.getEvents();
-        this.localStorage.getItem ('activeRunner').subscribe((person: string) => {
-            if (person !== undefined && person !== '') {
-                this.solv.readMyEvents(person);
-            }
-        });
     }
 
     showInfo(event) {

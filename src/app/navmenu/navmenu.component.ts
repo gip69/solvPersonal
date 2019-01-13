@@ -97,7 +97,7 @@ export class NavmenuComponent implements OnInit, AfterViewChecked {
 
             setTimeout(() => {
                 this.eventMessage.sendCommand('run', 'year', 'CHANGE_YEAR', event.source.value);
-            }, 1000);
+            }, 2000);
         }
     }
 }
