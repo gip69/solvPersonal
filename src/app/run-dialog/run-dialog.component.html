@@ -1,11 +1,11 @@
-<h2 mat-dialog-title>{{modalTitle}} ({{data.event.id}})</h2>
+<h2 mat-dialog-title>{{modalTitle}} ({{data.eventData.id}})</h2>
 <mat-dialog-content>
   <mat-list role="list">
-    <mat-list-item role="listitem" class="run"><span class="description">Date</span><span class="value">{{data.event.date}}</span></mat-list-item>
-    <mat-list-item role="listitem" class="run"><span class="description">Map</span><span class="value">{{data.event.map}}</span></mat-list-item>
-    <mat-list-item role="listitem" class="run"><span class="description">Club</span><span class="value">{{data.event.club}}</span></mat-list-item>
-    <mat-list-item role="listitem" class="run"><span class="description">Link</span><span class="value">{{data.event._link}}</span></mat-list-item>
-    <mat-list-item role="listitem" class="run"><span class="description">Category</span><span class="value">{{data.activeRunner.runner.category}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Date</span><span class="value">{{data.eventData.date}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Map</span><span class="value">{{data.eventData.map}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Category</span><span class="value">{{data.analyzedData.category}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Rank</span><span class="value">{{data.analyzedData.rank}} of {{data.analyzedData.countRunner}}</span></mat-list-item>
+    <mat-list-item role="listitem" class="run"><span class="description">Time</span><span class="value">{{data.analyzedData.times.my}} (first: {{data.analyzedData.times.first}})</span></mat-list-item>
   </mat-list>
 </mat-dialog-content>
 <mat-dialog-actions>

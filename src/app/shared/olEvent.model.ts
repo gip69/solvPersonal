@@ -5,5 +5,7 @@ export interface OlEvent {
     map: string;
     club: string;
     source: string;
+    rank: string;
+    duration: string;
     _link: string;
 }

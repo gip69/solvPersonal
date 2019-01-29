@@ -5,21 +5,25 @@
       <input matInput placeholder="Placeholder" disabled [value]="countEvents">
       <mat-icon matSuffix>directions_run</mat-icon>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="readPersonalEvents()">Reload</button>
+    <!--button mat-raised-button color="primary" (click)="readEventsData()">Reload</button-->
   </div>
   <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
   <mat-table [dataSource]="events">
-    <ng-container matColumnDef="number">
-      <mat-header-cell *matHeaderCellDef> Id</mat-header-cell>
-      <mat-cell *matCellDef="let event"> {{event.id}}</mat-cell>
+    <ng-container matColumnDef="date" class="date">
+      <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
+      <mat-cell *matCellDef="let event">{{event.date}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
       <mat-cell *matCellDef="let event"> {{event.name}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
-      <mat-cell *matCellDef="let event">{{event.date}}</mat-cell>
+    <ng-container matColumnDef="rank">
+      <mat-header-cell *matHeaderCellDef> Rank</mat-header-cell>
+      <mat-cell *matCellDef="let event">{{event.rank}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="duration">
+      <mat-header-cell *matHeaderCellDef> Time</mat-header-cell>
+      <mat-cell *matCellDef="let event">{{event.duration}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="map">
       <mat-header-cell *matHeaderCellDef> Map</mat-header-cell>
@@ -28,6 +32,10 @@
     <ng-container matColumnDef="club">
       <mat-header-cell *matHeaderCellDef> Club</mat-header-cell>
       <mat-cell *matCellDef="let event">{{event.club}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef> Id</mat-header-cell>
+      <mat-cell *matCellDef="let event"> {{event.id}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="source">
       <mat-header-cell *matHeaderCellDef> Source</mat-header-cell>

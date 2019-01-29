@@ -12,15 +12,16 @@ export class SolvService {
     @Output() initialized = new EventEmitter<boolean>();
     @Output() myEventsRead = new EventEmitter<number>();
     @Output() readProgress = new EventEmitter<number>();
+    @Output() emitReadEventsData = new EventEmitter<number>();
 
     host = 'http://ol.zimaa.ch';   // 'http://localhost:3010';
     private events;
     myEvents: EventIdRunner[] = [];
     private counter = 0;
-    private eventsRunner;
     private progress = 0;
     private dataId = 0;
     private eventsYear = '';
+    private eventDatas = [];
 
     constructor(private http: HttpClient, protected localStorage: LocalStorage) {
         this.localStorage.getItem('activeYear').subscribe((activeYear: string) => {
@@ -34,6 +35,9 @@ export class SolvService {
         });
     }
 
+    // TODO: pro Event die Daten (eventId, runnerId, runnerCategory and eventData) speichern und später im run-analyse analysieren
+    // und für Anzeige aufbereiten (abrufbar)
+
     readEventsOfYear(year: string) {
         console.log('read events from solve for year ' + year);
         this.http.get(this.host + '/api/events?year=' + year).subscribe(res => {
@@ -43,6 +47,7 @@ export class SolvService {
             this.initialized.emit(true);
         });
     }
+
     checkRunner(id: number, fullname: string, runners) {
         for (const runner in runners) {
             if (runners[runner]['fullName'] === fullname) {
@@ -138,6 +143,41 @@ export class SolvService {
                     this.events = res;
                 });
             }
+        }
+    }
+
+    readEventsData(eventId) {
+        // http://ol.zimaa.ch/api/events/solv/4858
+        if (eventId !== undefined) {
+            this.localStorage.getItem('eventData' + eventId).subscribe((eventResult) => {
+                if (eventResult != null) {
+                    if (this.eventDatas.find(x => x.eventId === eventId) === undefined) {
+                        this.eventDatas.push({'eventId': eventId, 'data': eventResult});
+                    }
+                } else {
+                    this.http.get(this.host + '/api/events/solv/' + eventId)
+                        .subscribe(res => {
+                            this.eventDatas.push({'eventId': eventId, 'data': res});
+                            this.localStorage.setItem('eventData' + eventId, res).subscribe(() => {
+                                // Done
+                                this.emitReadEventsData.emit(eventId);
+                                console.log('SolvDbService.readEventsData saved data of event ' + eventId);
+                            }, () => {
+                                console.error('SolvDbService.readEventsData could not save data of event ' + eventId + '!');
+                            });
+                        });
+                }
+            });
+        }
+    }
+
+    getEventData(eventId) {
+        const eventData = this.eventDatas.find(x => x.eventId === eventId);
+        if (eventData === undefined) {
+            this.readEventsData(eventId);
+            return undefined;
+        } else {
+            return eventData;
         }
     }
 }
