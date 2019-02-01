@@ -7,21 +7,16 @@ import {OlEvent} from '../shared/olEvent.model';
 import {EventIdRunner} from '../shared/eventIdRunner.model';
 import {EventMessageService} from '../shared/event.message.service';
 import {LocalStorage} from '@ngx-pwa/local-storage';
+import {EventsService} from './events.service';
 
-enum EventState {
-    INIT,
-    EVENT_READ,
-    EVENT_PERSON_FILTERED,
-    EVENT_PERSON_ANALYSED,
-}
 
 @Component({
     selector: 'app-run',
     templateUrl: './run.component.html',
-    styleUrls: ['./run.component.css']
+    styleUrls: ['./run.component.css'],
+    providers: [EventsService]
 })
 export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
-    stateEvent: EventState = EventState.INIT;
     events: OlEvent[] = [];
     eventsAll: OlEvent[] = [];
     eventsRunner: EventIdRunner[];
@@ -45,8 +40,6 @@ export class RunComponent implements OnInit, AfterViewChecked, OnDestroy {
                 private solv: SolvService) {}
 
     ngOnInit() {
-        this.stateEvent = EventState.INIT;
-
         if (this.initialized) {
             this.readPersonalEvents();
         }

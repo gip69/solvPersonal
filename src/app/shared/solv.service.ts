@@ -39,7 +39,7 @@ export class SolvService {
     // und für Anzeige aufbereiten (abrufbar)
 
     readEventsOfYear(year: string) {
-        console.log('read events from solve for year ' + year);
+        console.log('read events from solv for year ' + year);
         this.http.get(this.host + '/api/events?year=' + year).subscribe(res => {
             this.eventsYear = year;
             this.events = res;
