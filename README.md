@@ -1,3 +1,9 @@
+Old Version of solvPersonal on github:
+https://github.com/gip69/solvPersonal.git
+
+new on on gitlab:
+ssh://git@giannini31.synology.me:30001/pascal/solvPersonal.git
+
 # NgTemplate
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
